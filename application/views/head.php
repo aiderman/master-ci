@@ -1,0 +1,15 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+
+    <title>E-Logbook RSGM</title>
+    <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/logo-mini.png" />
+    <!-- Favicon-->
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/fullcalendar/fullcalendar.min.css">
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/main.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/color_skins.css">
+</head>

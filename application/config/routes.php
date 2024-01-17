@@ -49,6 +49,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'C_login';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+
+$route['login']                     = 'c_login';
+$route['logout']                    = 'c_login/logout';
+$route['cek_login']                 = 'c_login/cek_login';
+
+// user
+
+$route['destroy_session']           = 'C_session_destroy';
+
+
+// error
+$route['error']                     = 'Error_empty';
+$route['destroy_session']           = 'C_session_destroy';
+
+$route['default_controller']        = 'c_login';
+$route['404_override']              = 'Error_404';
+$route['translate_uri_dashes']      = FALSE;

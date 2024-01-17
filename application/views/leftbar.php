@@ -1,31 +1,23 @@
-<div class="page-wrapper">
-    <div class="page-wrapper-inner">
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <div class="menu">
+            <ul class="list">
+                <li>
+                    <div class="user-info">
+                        <div class="image"><a href="profile.html"><img src="<?= base_url(); ?>assets/images/Hospital.svg" alt="User"></a></div>
+                    </div>
+                </li>
+                <li class="header">MAIN</li>
+                <li><a href="index.html"><i class="zmdi zmdi-home"></i><span>Halaman Utama</span></a></li>
+                <li><a href="<?= base_url(); ?>user/edit-profil"><i class="zmdi zmdi-account-o"></i><span>edit profil</span> </a></li>
+                <li><a href="<?= base_url(); ?>user/ganti-pass"><i class="zmdi zmdi-account-o"></i><span>ganti pass</span> </a></li>
+                <li class="active open"><a href="<?= base_url(); ?>user/logbook" class="menu-toggle"><i class="zmdi zmdi-calendar-check"></i><span>logbook</span> </a>
+                    <ul class="ml-menu">
+                        <li class="active"><a href="events.html">Doctor Schedule</a></li>
+                        <li><a href="book-appointment.html">Book Appointment</a></li>
+                    </ul>
+                </li>
 
-        <!-- Left Sidenav -->
-        <div class="left-sidenav">
-            <ul class="metismenu left-sidenav-menu" id="side-nav">
-                <li class="menu-title">Main</li>
-                <li>
-                    <a href="<?php echo base_url('C_dash') ?>"><i class="mdi mdi-monitor"></i><span>Dashboards</span><span class="badge badge-danger badge-pill float-right"></span></a>
-                </li>
-                <li>
-                    <a href="#"><i class="mdi mdi-apps"></i><span>FORM</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="<?php echo base_url('C_formdata') ?>"><span>FORM A</span></a></li>
-                        <li><a href="#"><span>FORM B</span></a></li>
-                        <li><a href="#"><span>FORM C</span></a></li>
-                        <li><a href="#"><span>FORM D</span></a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="<?php echo base_url('C_galeri') ?>"><i class="mdi mdi-apps"></i><span>GALLERY</span></a>
-                </li>
-                <li>
-                    <a href="#"><i class="mdi mdi-apps"></i><span>MAP</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="<?php echo base_url('C_maps') ?>"><span>Titik Masalah</span></a></li>
-                        <li><a href="<?php echo base_url('C_maps/map_panwascam') ?>"><span>Panwascam</span></a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
+    </aside>

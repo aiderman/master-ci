@@ -8,56 +8,69 @@ class C_login extends CI_Controller
         parent::__construct();
         $this->load->helper(array('form'));
         $this->load->helper('url');
-        $this->load->Model('M_pengguna');
     }
 
     public function index()
     {
         $this->load->view("login");
     }
-    public function loginCek()
-    {
-        $user = $this->input->post('username');
-        $pass = $this->input->post('password');
-
-        $data = $this->M_pengguna->userCek($user, $pass);
-
-
-        if ($data == TRUE) {
-
-            $session_data = array(
-                's_id'         => $data[0]->id_pengguna,
-                's_username'         => $data[0]->username,
-                's_password'         => $data[0]->password,
-                's_foto'            => $data[0]->foto,
-                's_level'            => $data[0]->level,
-            );
-            // echo "<pre>";
-            // echo print_r($session_data);
-            // echo "<pre>";
-            // die();
-            $this->session->set_userdata($session_data);
-            redirect('C_dash/');
-        } else {
-?>
-            <script type='text/javascript'>
-                alert('Nama Akun & Kata Sandi Anda Salah!');
-                history.back('C_login');
-            </script>
-<?php
-            $this->session->set_flashdata('fail2', "Gagal");
-            redirect('C_login');
-        }
-    }
 
 
     public function logout()
     {
         $this->session->sess_destroy();
-        redirect('C_login');
+        redirect('login');
     }
-    public function c_apk()
+
+    public function cek_login()
     {
-        redirect('apk/c_berita/');
+        $username    = $this->input->post('username');
+        $password    = $this->input->post('password');
+
+        $user = $this->db->get_where('user_data', ['username' => $username])->row_array();
+
+        if ($user != " ") {
+            if ($user['password'] == $password && $user['username'] == $username) {
+                $data['id_user']    = $user['id_user'];
+                $data['name']       = $user['name'];
+                $data['email']      = $user['email'];
+                $data['username']   = $user['username'];
+                $data['password']   = $user['password'];
+                $data['status']     = $user['status'];
+                $data['role_id']    = $user['role_id'];
+                $data['position']   = $user['position'];
+                $data['image']      = $user['image'];
+                $data['role']       = $user['role'];
+                $data['id_menu']    = $user['id_menu'];
+                $data['menu']       = $user['menu'];
+                $data['detail_menu_id'] = $user['detail_menu_id'];
+                $data['id_menu_d']  = $user['id_menu_d'];
+                $data['menu_id']    = $user['menu_id'];
+                $data['title']      = $user['title'];
+                $data['url']        = $user['url'];
+                $data['icon']       = $user['icon'];
+
+                // echo "<pre>";
+                // print_r($data);
+                // echo "</pre>";
+                // die();
+                if ($data['role_id'] == 1) {
+                    $this->session->set_userdata($data);
+                    $this->session->set_flashdata('success', "Selamat Datang!");
+                    $this->load->view('user/halaman_utama', $data);
+                } elseif ($data['role_id'] == 2) {
+                    $this->session->set_userdata($data);
+                    $this->session->set_flashdata('success', "Selamat Datang!");
+                    redirect('admin/halaman-utama', $data);
+                } elseif ($data['role_id'] == 3) {
+                    $this->session->set_userdata($data);
+                    $this->session->set_flashdata('success', "Selamat Datang!");
+                    redirect('admin-validator/halaman-utama', $data);
+                }
+            } else {
+                $this->session->set_flashdata('error', "Masuk Gagal! anda belum terdaftar atau username/kata sandi anda salah");
+                redirect('login');
+            }
+        }
     }
 }
