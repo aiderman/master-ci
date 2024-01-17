@@ -8,13 +8,13 @@
                     </div>
                 </li>
                 <li class="header">MAIN</li>
-                <li><a href="index.html"><i class="zmdi zmdi-home"></i><span>Halaman Utama</span></a></li>
-                <li><a href="<?= base_url(); ?>user/edit-profil"><i class="zmdi zmdi-account-o"></i><span>edit profil</span> </a></li>
-                <li><a href="<?= base_url(); ?>user/ganti-pass"><i class="zmdi zmdi-account-o"></i><span>ganti pass</span> </a></li>
-                <li class="active open"><a href="<?= base_url(); ?>user/logbook" class="menu-toggle"><i class="zmdi zmdi-calendar-check"></i><span>logbook</span> </a>
+                <li><a href="<?= base_url(); ?>user/halaman_utama"><i class="zmdi zmdi-home"></i><span>Halaman Utama</span></a></li>
+                <li><a href="<?= base_url(); ?>user/edit_profil"><i class="zmdi zmdi-account-o"></i><span>edit profil</span> </a></li>
+                <li><a href="<?= base_url(); ?>user/ganti_pass"><i class="zmdi zmdi-account-o"></i><span>ganti pass</span> </a></li>
+                <li class="active open"><a href="#" class="menu-toggle"><i class="zmdi zmdi-calendar-check"></i><span>logbook</span> </a>
                     <ul class="ml-menu">
-                        <li class="active"><a href="events.html">Doctor Schedule</a></li>
-                        <li><a href="book-appointment.html">Book Appointment</a></li>
+                        <li class="active"><a href="<?= base_url(); ?>user/jadwal">Doctor Schedule</a></li>
+                        <li><a href="user/input_jadwal">Book Appointment</a></li>
                     </ul>
                 </li>
 

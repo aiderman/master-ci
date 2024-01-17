@@ -12,12 +12,27 @@ class C_login extends CI_Controller
 
     public function index()
     {
-        $this->load->view("login");
+        if ($this->session->userdata('username')) {
+            redirect('login');
+        }
+
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Login Page';
+            $this->load->view('login', $data);
+        } else {
+            //validasinya sukses
+            $this->cek_login();
+        }
     }
 
 
     public function logout()
     {
+        $this->session->unset_userdata('username');
+        $this->session->set_flashdata('success', "Logged out!");
         $this->session->sess_destroy();
         redirect('login');
     }
@@ -50,14 +65,14 @@ class C_login extends CI_Controller
                 $data['url']        = $user['url'];
                 $data['icon']       = $user['icon'];
 
-                // echo "<pre>";
-                // print_r($data);
-                // echo "</pre>";
-                // die();
+                echo "<pre>";
+                print_r($data);
+                echo "</pre>";
+                die();
                 if ($data['role_id'] == 1) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");
-                    $this->load->view('user/halaman_utama', $data);
+                    redirect('user/halaman_utama', $data);
                 } elseif ($data['role_id'] == 2) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");
