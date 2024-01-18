@@ -43,4 +43,8 @@ class M_user extends CI_Model
         $this->db->where($id);
         $this->db->update($this->table, $data);
     }
+    function tambah($data)
+    {
+        $this->db->insert($this->table, $data);
+    }
 }

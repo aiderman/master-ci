@@ -14,6 +14,7 @@
                 <li><a href="<?= base_url(); ?>user/profil" id="profil"><i class="zmdi zmdi-account-o"></i><span>profil</span></a></li>
                 <li><a href="<?= base_url(); ?>user/ganti_pass" id="ganti-pass"><i class="zmdi zmdi-account-o"></i><span>ganti pass</span></a></li>
                 <li><a href="<?= base_url(); ?>user/logbook_login" id="logbook"><i class="zmdi zmdi-calendar-check"></i><span>logbook</span></a></li>
+                <li><a href="<?= base_url(); ?>user/logbook_riwayat" id="logbook"><i class="zmdi zmdi-calendar-check"></i><span>history logbook</span></a></li>
             <?php elseif ($role_id == 2) : ?>
                 <li><a href="<?= base_url(); ?>admin/logbook_login" id="logbook"><i class="zmdi zmdi-calendar-check"></i><span>logbook</span></a></li>
                 <li><a href="<?= base_url(); ?>admin/logbook_riwayat" id="logbook"><i class="zmdi zmdi-calendar-check"></i><span>history logbook</span></a></li>

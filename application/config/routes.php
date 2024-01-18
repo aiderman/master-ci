@@ -70,6 +70,7 @@ $route['user/get/(:num)']        = 'C_user/get/$1';
 $route['user/get_log/(:num)']        = 'C_user/get_log/$1';
 $route['user/edit']        = 'C_user/edit';
 $route['user/logbook']        = 'C_user/logbook';
+$route['user/logbook_riwayat']        = 'C_user/logbook_riwayat';
 $route['user/logbook_login']        = 'C_user/logbook_login';
 $route['user/logbook_cek']        = 'C_user/logbook_login_cek';
 
@@ -78,6 +79,7 @@ $route['admin/data_perawat']        = 'C_admin/data_perawat';
 $route['admin/profil']        = 'C_admin/profil';
 $route['admin/edit_profil']        = 'C_admin/edit_profil';
 $route['admin/tambah_log']        = 'C_admin/tambah_log';
+$route['admin/tambahUser']        = 'C_admin/tambahUser';
 $route['admin/updatelog']        = 'C_admin/update_data_log';
 $route['admin/ganti_pass']        = 'C_admin/ganti_pass';
 $route['admin/verif_pass']        = 'C_admin/verif_ganti_pass';

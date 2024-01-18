@@ -29,7 +29,7 @@
                     <div class="card">
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                <table class="table table-bordered table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th>Nama perawat</th>
@@ -47,7 +47,12 @@
                                     </thead>
                                     <tbody>
                                         <?php foreach ($logbook as $log) : ?>
-                                            <tr>
+                                            <?php
+                                            $createdTimestamp = strtotime($log->created);
+                                            $tanggalTimestamp = strtotime($log->tanggal);
+                                            $terlambat = $createdTimestamp > $tanggalTimestamp;
+                                            ?>
+                                            <tr <?php if ($terlambat) echo 'class="terlambat"'; ?>>
                                                 <td><?= $log->name ?></td>
                                                 <td><?= $log->ruangan ?></td>
                                                 <td><?= $log->tanggal ?></td>

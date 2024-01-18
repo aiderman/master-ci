@@ -28,9 +28,12 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahDataModal">Tambah Data</button>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <!-- Table Header -->
                                     <thead>
+
                                         <tr>
                                             <th>ID</th>
                                             <th>Nama</th>
@@ -70,95 +73,52 @@
     </section>
 
 
-    <!-- Modal untuk form tambah data -->
-    <div class="modal fade bs-example-modal-lg" id="editData" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
-        <div class="modal-dialog modal-lg" role="document">
-            <?php echo form_open_multipart('user/updatelog'); ?>
+    <!-- Modal Tambah Data -->
+    <div class="modal fade" id="tambahDataModal" tabindex="-1" role="dialog" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">update</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                    <h5 class="modal-title" id="tambahDataModalLabel">Tambah Data Baru</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm">
-                        <input type="hidden" name="ed_id">
-
-                        <div class="row">
-                            <!-- Left column -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="hidden" class="form-control" id="idUser" name="idUser">
-                                    <input type="hidden" class="form-control" id="idLog" name="idLog">
-                                    <label for="PK">PK:</label>
-                                    <input type="text" class="form-control" id="PK" name="PK">
-                                </div>
-                                <div class="form-group">
-                                    <label for="namaKewenangan">Nama Kewenangan:</label>
-                                    <input type="text" class="form-control" id="namaKewenangan" name="namaKewenangan">
-                                </div>
-                                <div class="form-group">
-                                    <label for="noRekamMedis">No. Rekam Medis:</label>
-                                    <input type="text" class="form-control" id="noRekamMedis" name="noRekamMedis">
-                                </div>
-                            </div>
-                            <!-- Right column -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="PK">Tindakan Keperawatan:</label>
-                                    <textarea rows="4" class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan" placeholder="Please type what you want..."></textarea>
-                                </div>
-                            </div>
+                    <!-- Form Tambah Data -->
+                    <form id="formTambahData" action="<?= base_url('admin/tambahUser'); ?>" method="post">
+                        <!-- Isi form sesuai dengan atribut yang ingin ditambahkan -->
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama">
                         </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="text" class="form-control" id="position" name="position" placeholder="Masukkan Posisi">
+                        </div>
+                        <div class="form-group">
+                            <label for="NRP">NRP</label>
+                            <input type="text" class="form-control" id="NRP" name="NRP" placeholder="Masukkan NRP">
+                        </div>
+                        <div class="form-group">
+                            <label for="pendidikan">Pendidikan</label>
+                            <input type="text" class="form-control" id="pendidikan" name="pendidikan" placeholder="Masukkan Pendidikan">
+                        </div>
+                        <!-- ... tambahkan atribut lainnya sesuai kebutuhan -->
 
+                        <!-- Tombol Submit -->
+                        <button type="submit" class="btn btn-primary">Tambah</button>
                     </form>
-
-                    <div class="modal-footer">
-                        <button class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><span>Batal</span></button>
-                        <button class="btn btn-info waves-effect waves-light" type="submit"><span>Simpan</span></button>
-                    </div>
                 </div>
-
-                <?php echo form_close(); ?>
             </div>
         </div>
     </div>
 
 
     <?php $this->load->view('script'); ?>
-    <script>
-        function updateLog(id) {
-            //Ajax Load data from ajax
-
-            $.ajax({
-                url: "<?php echo site_url('user/get_log') ?>/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data) {
-                    $('[name=idUser]').val(data.id_user);
-                    $('[name=idLog]').val(data.id_log);
-
-                    $('#editData').modal('show'); // show bootstrap modal when complete loaded
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-    </script>
-
-    <script>
-        function toggleText(element) {
-            var limitedLines = $(element).prev('.limited-lines');
-            limitedLines.toggleClass('expanded');
-            if (limitedLines.hasClass('expanded')) {
-                $(element).text('Sembunyikan');
-            } else {
-                $(element).text('Lihat Lebih Banyak');
-            }
-        }
-    </script>
 </body>
 
 </html>

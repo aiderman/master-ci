@@ -29,7 +29,7 @@
                     <div class="card">
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                <table class="table table-bordered table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th>Nama perawat</th>
@@ -47,11 +47,15 @@
                                     </thead>
                                     <tbody>
                                         <?php foreach ($logbook as $log) : ?>
-                                            <tr>
+                                            <?php
+                                            $createdTimestamp = strtotime($log->created);
+                                            $tanggalTimestamp = strtotime($log->tanggal);
+                                            $terlambat = $createdTimestamp > $tanggalTimestamp;
+                                            ?>
+                                            <tr <?php if ($terlambat) echo 'class="terlambat"'; ?>>
                                                 <td><?= $log->name ?></td>
                                                 <td><?= $log->ruangan ?></td>
                                                 <td><?= $log->tanggal ?></td>
-
                                                 <td><?= $log->PK ?></td>
                                                 <td><?= $log->nama_kewenangan ?></td>
                                                 <td><?= $log->no_rekam_medis ?></td>
@@ -62,7 +66,8 @@
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?= $log->nilai ?></td>
-                                                <td><?php if ($log->v_kabid == 1) : ?>
+                                                <td>
+                                                    <?php if ($log->v_kabid == 1) : ?>
                                                         <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
                                                     <?php elseif ($log->v_kabid == 0) : ?>
                                                         <button type="button" class="btn btn-success" onclick="inputnilai(<?= $log->id_log ?>)">input nilai</button>

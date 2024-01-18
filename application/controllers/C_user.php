@@ -216,6 +216,23 @@ class C_user extends CI_Controller
             }
         }
     }
+    public function logbook_riwayat()
+    {
+        $data['id_user']    = $this->session->userdata('id_user');
+        $id['id_user']    = $this->session->userdata('id_user');
+        $data['name']       = $this->session->userdata('name');
+        $data['role_id']    = $this->session->userdata('role_id');
+
+
+        $data['logbook'] = $this->M_log_user->get_where($id);
+
+        // echo "<pre>";
+        // print_r($data['logbook']);
+        // echo "</pre>";
+        // die();
+
+        $this->load->view("user/logbook_riwayat", $data);
+    }
     public function update_data_log()
     {
 

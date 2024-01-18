@@ -268,8 +268,6 @@ class C_admin extends CI_Controller
     }
     public function update_data_log()
     {
-
-
         $id_log['id_log'] = $this->input->post('idLog');
         $data['nilai'] = $this->input->post('nilai');
         $data['status'] = '2';
@@ -285,5 +283,24 @@ class C_admin extends CI_Controller
 
         // Redirect to the profil route
         redirect('admin/logbook');
+    }
+
+    public function tambahUser()
+    {
+
+        $data['name'] = $this->input->post('nama');
+        $data['username'] = $this->input->post('username');
+        $data['position'] = $this->input->post('position');
+        $data['nrp'] = $this->input->post('NRP');
+        $data['pendidikan'] = $this->input->post('pendidikan');
+        $data['role_id'] = '1';
+
+
+
+        // Panggil model untuk menambahkan data
+        $this->M_user->tambah($data);
+
+        // Redirect ke halaman utama setelah tambah data
+        redirect('admin/data_perawat');
     }
 }

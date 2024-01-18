@@ -39,4 +39,10 @@
             text-decoration: underline;
         }
     </style>
+    <style>
+        .terlambat {
+            background-color: #ffcccc;
+            /* Warna latar merah untuk menandakan terlambat */
+        }
+    </style>
 </head>
