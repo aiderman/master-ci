@@ -36,7 +36,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="container">
-                                <form action="<?= base_url() ?>admin/logbook_cek" method="post">
+                                <form action="<?= base_url() ?>admin_validator/logbook_cek" method="post">
                                     <div class="container">
                                         <div class="row justify-content-center">
                                             <div class="col-sm-8">

@@ -35,7 +35,6 @@
                                             <th></th>
                                             <th>Nama Ruangan</th>
                                             <th>Tanggal</th>
-                                            <th>Shift</th>
                                             <th>PK</th>
                                             <th>Nama Kewenangan</th>
                                             <th>No. Rekam Medis</th>
@@ -48,13 +47,12 @@
                                     <tbody>
                                         <?php foreach ($logbook as $log) : ?>
                                             <tr>
-                                                <td> <?php if ($log->v_karo == 0 && $log->v_kabid == 0) : ?>
-                                                        <button type="button" class="btn btn-success" onclick="updateLog(<?= $log->id_user ?>)">Update Log</button>
-                                                    <?php endif; ?>
+                                                <td>
+                                                    <button type="button" class="btn btn-success" onclick="updateLog(<?= $log->id_log ?>)">Update Log</button>
+
                                                 </td>
-                                                <td><?= $log->nama_ruangan ?></td>
+                                                <td><?= $log->ruangan ?></td>
                                                 <td><?= $log->tanggal ?></td>
-                                                <td><?= $log->shift ?></td>
                                                 <td><?= $log->PK ?></td>
                                                 <td><?= $log->nama_kewenangan ?></td>
                                                 <td><?= $log->no_rekam_medis ?></td>
@@ -93,7 +91,7 @@
     <!-- Modal untuk form tambah data -->
     <div class="modal fade bs-example-modal-lg" id="editData" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
         <div class="modal-dialog modal-lg" role="document">
-            <?php echo form_open_multipart('user/updatelog'); ?>
+            <?php echo form_open_multipart('user/updatelog', 'id="updateLogForm"'); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">update log</h4>
@@ -102,41 +100,37 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm">
-                        <input type="hidden" name="ed_id">
-
-                        <div class="row">
-                            <!-- Left column -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="hidden" class="form-control" id="idUser" name="idUser">
-                                    <input type="hidden" class="form-control" id="idLog" name="idLog">
-                                    <label for="PK">PK:</label>
-                                    <input type="text" class="form-control" id="PK" name="PK">
-                                </div>
-                                <div class="form-group">
-                                    <label for="namaKewenangan">Nama Kewenangan:</label>
-                                    <input type="text" class="form-control" id="namaKewenangan" name="namaKewenangan">
-                                </div>
-                                <div class="form-group">
-                                    <label for="noRekamMedis">No. Rekam Medis:</label>
-                                    <input type="text" class="form-control" id="noRekamMedis" name="noRekamMedis">
-                                </div>
+                    <input type="hidden" name="ed_id">
+                    <div class="row">
+                        <!-- Left column -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="idUser" name="idUser">
+                                <input type="hidden" class="form-control" id="idLog" name="idLog">
+                                <label for="PK">PK:</label>
+                                <input type="text" class="form-control" id="PK" name="PK">
                             </div>
-                            <!-- Right column -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="PK">Tindakan Keperawatan:</label>
-                                    <textarea rows="4" class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan" placeholder="Please type what you want..."></textarea>
-                                </div>
+                            <div class="form-group">
+                                <label for="namaKewenangan">Nama Kewenangan:</label>
+                                <input type="text" class="form-control" id="namaKewenangan" name="namaKewenangan">
+                            </div>
+                            <div class="form-group">
+                                <label for="noRekamMedis">No. Rekam Medis:</label>
+                                <input type="text" class="form-control" id="noRekamMedis" name="noRekamMedis">
                             </div>
                         </div>
-
-                    </form>
+                        <!-- Right column -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="PK">Tindakan Keperawatan:</label>
+                                <textarea rows="4" class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan" placeholder="Please type what you want..."></textarea>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="modal-footer">
                         <button class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><span>Batal</span></button>
-                        <button class="btn btn-info waves-effect waves-light" type="submit"><span>Simpan</span></button>
+                        <button class="btn btn-info waves-effect waves-light" type="button" onclick="confirmUpdate()"><span>Simpan</span></button>
                     </div>
                 </div>
 
@@ -167,7 +161,15 @@
             });
         }
     </script>
-
+    <script>
+        function confirmUpdate() {
+            // Display a confirmation dialog
+            if (confirm("Apakah Anda yakin data Anda sudah benar?")) {
+                // If user clicks 'OK', submit the form
+                document.getElementById("updateLogForm").submit();
+            }
+        }
+    </script>
     <script>
         function toggleText(element) {
             var limitedLines = $(element).prev('.limited-lines');

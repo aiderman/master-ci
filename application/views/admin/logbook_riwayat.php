@@ -41,7 +41,7 @@
                                             <th>No. Rekam Medis</th>
                                             <th>Tindakan Keperawatan</th>
                                             <th>nilai</th>
-                                            <th>Tinjau</th>
+                                            <th>sifat</th>
 
                                         </tr>
                                     </thead>
@@ -62,12 +62,7 @@
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?= $log->nilai ?></td>
-                                                <td><?php if ($log->v_kabid == 1) : ?>
-                                                        <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
-                                                    <?php elseif ($log->v_kabid == 0) : ?>
-                                                        <button type="button" class="btn btn-success" onclick="inputnilai(<?= $log->id_log ?>)">input nilai</button>
-                                                    <?php endif; ?>
-                                                </td>
+                                                <td><?= $log->sifat ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -84,76 +79,10 @@
     <!-- Modal untuk form tambah data -->
 
     <!-- Modal -->
-    <div class="modal fade bs-example-modal-sm" id="editData" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
-        <div class="modal-dialog modal-lg" role="document">
-            <?php echo form_open_multipart('admin/updatelog', 'id="updateLogForm"'); ?>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">form penilaian</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editForm">
-                        <input type="hidden" name="idUser">
-                        <input type="hidden" name="idLog">
-
-                        <div class="row">
-                            <!-- Right column -->
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="PK">penilaian:</label>
-                                    <input rows="4" class="form-control" id="nilai" name="nilai" placeholder="silahkan beri nilai"></input>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-
-                    <div class="modal-footer">
-                        <button class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><span>Batal</span></button>
-                        <button class="btn btn-info waves-effect waves-light" type="button" onclick="confirmUpdate()"><span>Simpan</span></button>
-                    </div>
-                </div>
-
-                <?php echo form_close(); ?>
-            </div>
-        </div>
-    </div>
-
 
     <?php $this->load->view('script'); ?>
 
-    <script>
-        function inputnilai(id) {
-            //Ajax Load data from ajax
 
-            $.ajax({
-                url: "<?php echo site_url('admin/get_log') ?>/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data) {
-                    $('[name=idUser]').val(data.id_user);
-                    $('[name=idLog]').val(data.id_log);
-
-                    $('#editData').modal('show'); // show bootstrap modal when complete loaded
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-    </script>
-    <script>
-        function confirmUpdate() {
-            // Display a confirmation dialog
-            if (confirm("Apakah Anda yakin data Anda sudah benar?")) {
-                // If user clicks 'OK', submit the form
-                document.getElementById("updateLogForm").submit();
-            }
-        }
-    </script>
     <script>
         function toggleText(element) {
             var limitedLines = $(element).prev('.limited-lines');

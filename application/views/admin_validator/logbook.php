@@ -41,6 +41,7 @@
                                             <th>No. Rekam Medis</th>
                                             <th>Tindakan Keperawatan</th>
                                             <th>nilai</th>
+                                            <th>sifat</th>
                                             <th>Tinjau</th>
 
                                         </tr>
@@ -62,11 +63,10 @@
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?= $log->nilai ?></td>
-                                                <td><?php if ($log->v_kabid == 1) : ?>
-                                                        <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
-                                                    <?php elseif ($log->v_kabid == 0) : ?>
-                                                        <button type="button" class="btn btn-success" onclick="inputnilai(<?= $log->id_log ?>)">input nilai</button>
-                                                    <?php endif; ?>
+                                                <td><?= $log->sifat ?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success" onclick="inputnilai(<?= $log->id_log ?>)">validasi</button>
+
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -86,7 +86,7 @@
     <!-- Modal -->
     <div class="modal fade bs-example-modal-sm" id="editData" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
         <div class="modal-dialog modal-lg" role="document">
-            <?php echo form_open_multipart('admin/updatelog', 'id="updateLogForm"'); ?>
+            <?php echo form_open_multipart('admin_validator/updatelog', 'id="updateLogForm"'); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">form penilaian</h4>
@@ -130,11 +130,10 @@
             //Ajax Load data from ajax
 
             $.ajax({
-                url: "<?php echo site_url('admin/get_log') ?>/" + id,
+                url: "<?php echo site_url('admin_validator/get_log') ?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
-                    $('[name=idUser]').val(data.id_user);
                     $('[name=idLog]').val(data.id_log);
 
                     $('#editData').modal('show'); // show bootstrap modal when complete loaded

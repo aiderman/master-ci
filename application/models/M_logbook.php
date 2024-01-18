@@ -18,6 +18,12 @@ class M_logbook extends CI_Model
         $this->db->where($id);
         return $this->db->get($this->table)->result();
     }
+    function get_where_user($id, $status)
+    {
+        $this->db->where($id);
+        $this->db->where('status', $status);
+        return $this->db->get($this->table)->result();
+    }
     function get_where_join($id)
     {
         $this->db->select('*');
@@ -42,12 +48,12 @@ class M_logbook extends CI_Model
         }
     }
 
-    function edit($id, $id_log, $data)
+    function edit($id_log, $data)
     {
-        $this->db->where($id);
         $this->db->where($id_log);
         $this->db->update($this->table, $data);
     }
+
     function tambah($data)
     {
         $this->db->insert($this->table, $data);

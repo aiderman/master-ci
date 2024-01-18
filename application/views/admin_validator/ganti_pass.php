@@ -34,7 +34,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="container">
-                                <form action="<?= base_url() ?>admin/verif_pass" method="post" onsubmit="return validateForm()">
+                                <form action="<?= base_url() ?>admin_validator/verif_pass" method="post" onsubmit="return validateForm()">
                                     <div class="container">
                                         <div class="row justify-content-center">
                                             <div class="col-sm-8">

@@ -32,42 +32,31 @@
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Nama perawat</th>
-                                            <th>Nama Ruangan</th>
-                                            <th>Tanggal</th>
-
-                                            <th>PK</th>
-                                            <th>Nama Kewenangan</th>
-                                            <th>No. Rekam Medis</th>
-                                            <th>Tindakan Keperawatan</th>
-                                            <th>nilai</th>
-                                            <th>Tinjau</th>
-
+                                            <th>ID</th>
+                                            <th>Nama</th>
+                                            <th>Username</th>
+                                            <th>Position</th>
+                                            <th>NRP</th>
+                                            <th>Pendidikan</th>
+                                            <th>STR Berlaku</th>
+                                            <th>STR Selesai</th>
+                                            <th>Ruangan</th>
+                                            <th>foto</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($logbook as $log) : ?>
+                                        <?php foreach ($user as $row) : ?>
                                             <tr>
-                                                <td><?= $log->name ?></td>
-                                                <td><?= $log->ruangan ?></td>
-                                                <td><?= $log->tanggal ?></td>
-
-                                                <td><?= $log->PK ?></td>
-                                                <td><?= $log->nama_kewenangan ?></td>
-                                                <td><?= $log->no_rekam_medis ?></td>
-                                                <td>
-                                                    <div class="limited-lines"><?= $log->tindakan_keperawatan ?></div>
-                                                    <?php if (strlen($log->tindakan_keperawatan) > 10) : ?>
-                                                        <div class="details-button" onclick="toggleText(this)">Lihat Lebih Banyak</div>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?= $log->nilai ?></td>
-                                                <td><?php if ($log->v_kabid == 1) : ?>
-                                                        <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
-                                                    <?php elseif ($log->v_kabid == 0) : ?>
-                                                        <button type="button" class="btn btn-success" onclick="inputnilai(<?= $log->id_log ?>)">input nilai</button>
-                                                    <?php endif; ?>
-                                                </td>
+                                                <td> <?= $row->id_user ?></td>
+                                                <td> <?= $row->name ?></td>
+                                                <td> <?= $row->username ?></td>
+                                                <td> <?= $row->position ?></td>
+                                                <td> <?= $row->NRP ?></td>
+                                                <td> <?= $row->pendidikan ?></td>
+                                                <td> <?= $row->str_berlaku ?></td>
+                                                <td> <?= $row->str_selesai ?></td>
+                                                <td><?= $row->ruangan ?></td>
+                                                <td> <?= $row->image ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -82,29 +71,43 @@
 
 
     <!-- Modal untuk form tambah data -->
-
-    <!-- Modal -->
-    <div class="modal fade bs-example-modal-sm" id="editData" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+    <div class="modal fade bs-example-modal-lg" id="editData" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
         <div class="modal-dialog modal-lg" role="document">
-            <?php echo form_open_multipart('admin/updatelog', 'id="updateLogForm"'); ?>
+            <?php echo form_open_multipart('user/updatelog'); ?>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">form penilaian</h4>
+                    <h4 class="modal-title">update</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="editForm">
-                        <input type="hidden" name="idUser">
-                        <input type="hidden" name="idLog">
+                        <input type="hidden" name="ed_id">
 
                         <div class="row">
-                            <!-- Right column -->
-                            <div class="col-md-12">
+                            <!-- Left column -->
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="PK">penilaian:</label>
-                                    <input rows="4" class="form-control" id="nilai" name="nilai" placeholder="silahkan beri nilai"></input>
+                                    <input type="hidden" class="form-control" id="idUser" name="idUser">
+                                    <input type="hidden" class="form-control" id="idLog" name="idLog">
+                                    <label for="PK">PK:</label>
+                                    <input type="text" class="form-control" id="PK" name="PK">
+                                </div>
+                                <div class="form-group">
+                                    <label for="namaKewenangan">Nama Kewenangan:</label>
+                                    <input type="text" class="form-control" id="namaKewenangan" name="namaKewenangan">
+                                </div>
+                                <div class="form-group">
+                                    <label for="noRekamMedis">No. Rekam Medis:</label>
+                                    <input type="text" class="form-control" id="noRekamMedis" name="noRekamMedis">
+                                </div>
+                            </div>
+                            <!-- Right column -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="PK">Tindakan Keperawatan:</label>
+                                    <textarea rows="4" class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan" placeholder="Please type what you want..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +116,7 @@
 
                     <div class="modal-footer">
                         <button class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><span>Batal</span></button>
-                        <button class="btn btn-info waves-effect waves-light" type="button" onclick="confirmUpdate()"><span>Simpan</span></button>
+                        <button class="btn btn-info waves-effect waves-light" type="submit"><span>Simpan</span></button>
                     </div>
                 </div>
 
@@ -124,13 +127,12 @@
 
 
     <?php $this->load->view('script'); ?>
-
     <script>
-        function inputnilai(id) {
+        function updateLog(id) {
             //Ajax Load data from ajax
 
             $.ajax({
-                url: "<?php echo site_url('admin/get_log') ?>/" + id,
+                url: "<?php echo site_url('user/get_log') ?>/" + id,
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
@@ -145,15 +147,7 @@
             });
         }
     </script>
-    <script>
-        function confirmUpdate() {
-            // Display a confirmation dialog
-            if (confirm("Apakah Anda yakin data Anda sudah benar?")) {
-                // If user clicks 'OK', submit the form
-                document.getElementById("updateLogForm").submit();
-            }
-        }
-    </script>
+
     <script>
         function toggleText(element) {
             var limitedLines = $(element).prev('.limited-lines');

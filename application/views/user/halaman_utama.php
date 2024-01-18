@@ -46,6 +46,7 @@
                     <div class="col-md-12 col-lg-4 col-xl-4">
                         <div class="body">
                             <!-- External Events -->
+                            <button type="button" class="btn btn-round btn-info waves-effect" data-toggle="modal" data-target="#inputjadwal">input jadwal</button>
                             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-Schedule" aria-expanded="false" aria-controls="collapseExample"><i class="zmdi zmdi-chevron-down"></i></button>
                             <div class="collapse-xs collapse-sm collapse" id="open-Schedule">
                                 <hr>
@@ -57,6 +58,7 @@
                                         <p>shift malam (21.00-07.30)</p>
                                         <address><i class="zmdi zmdi-pin"></i> 123 6th St. Melbourne, FL 32904</address>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -67,6 +69,38 @@
         </div>
     </section>
 
+
+    <div class="modal fade bs-example-modal-lg" id="inputjadwal" enctype="multipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+        <div class="modal-dialog modal-lg" role="document">
+            <?php echo form_open_multipart('user/tambah_log'); ?>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Input Jadwal Perawat</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?= $id_user ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="tanggal">Tanggal Shift:</label>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger waves-effect waves-light" data-dismiss="modal"><span>Batal</span></button>
+                    <button class="btn btn-info waves-effect waves-light" type="submit"><span>Simpan</span></button>
+                </div>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
+    </div>
 
 
     <?php $this->load->view('script'); ?>
@@ -94,7 +128,7 @@
 
         logbookData.forEach(function(log) {
             $('#calendar').fullCalendar('renderEvent', {
-                title: log.nama_ruangan,
+                title: log.name,
                 start: log.tanggal,
                 description: log.id_user,
                 className: 'bg-red'

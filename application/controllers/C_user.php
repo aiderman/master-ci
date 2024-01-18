@@ -10,6 +10,7 @@ class C_user extends CI_Controller
         $this->load->helper('url');
         $this->load->model('M_user');
         $this->load->model('M_logbook');
+        $this->load->model('M_log_user');
 
         $this->load->helper(array('file', 'url', 'form'));
         $this->load->library('form_validation');
@@ -31,22 +32,17 @@ class C_user extends CI_Controller
         $data['image']      = $this->session->userdata('image');
         $data['detail_menu_id'] = $this->session->userdata('detail_menu_id');
         $data['title']      = $this->session->userdata('title');
-        $data['url']        = $this->session->userdata('url');
+        $data['ruangan']        = $this->session->userdata('url');
         $data['icon']       = $this->session->userdata('icon');
 
-        $data['logbook'] = $this->M_logbook->get_where($id);
+        $data['logbook'] = $this->M_log_user->get_where($id);
 
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-        // die();
 
         $this->load->view("user/halaman_utama", $data);
     }
 
     public function edit()
     {
-
         // Validation succeeded, update the user data
         $id['id_user'] = $this->input->post('ed_id');
         $data['name'] = $this->input->post('ed_name');
@@ -139,14 +135,34 @@ class C_user extends CI_Controller
         // die();
         redirect("user/ganti_pass");
     }
+
+    public function tambah_log()
+    {
+
+        // Validation succeeded, update the user data
+        $data['id_user'] = $this->session->userdata('id_user');
+        $data['tanggal'] = $this->input->post('tanggal');
+        $data['created'] = date('Y-m-d H:i:s'); // Get current date and time in the format Y-m-d H:i:s
+
+        $this->M_logbook->tambah($data);
+        // echo "<pre>";
+        // print_r($res);
+        // echo "</pre>";
+        // die();
+
+        // Set flash data for success
+        $this->session->set_flashdata('success', "Data Berhasil Diubah!");
+        redirect('user/halaman_utama');
+    }
     public function logbook()
     {
         $data['id_user']    = $this->session->userdata('id_user');
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
+        $status['status']    = 0;
 
-        $data['logbook'] = $this->M_logbook->get_where($id);
+        $data['logbook'] = $this->M_log_user->get_where_user($id, $status);
 
         // echo "<pre>";
         // print_r($data['logbook']);
@@ -179,16 +195,13 @@ class C_user extends CI_Controller
                 $data['name']       = $user['name'];
                 $data['username']   = $user['username'];
                 $data['password']   = $user['password'];
-                $data['status']     = $user['status'];
+
                 $data['role_id']    = $user['role_id'];
                 $data['position']   = $user['position'];
                 $data['image']      = $user['image'];
                 $data['detail_menu_id'] = $user['detail_menu_id'];
-                $data['id_menu_d']  = $user['id_menu_d'];
-                $data['menu_id']    = $user['menu_id'];
                 $data['title']      = $user['title'];
-                $data['url']        = $user['url'];
-                $data['icon']       = $user['icon'];
+                $data['ruangan']        = $user['url'];
                 if ($data['role_id'] == 1) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");
@@ -207,23 +220,16 @@ class C_user extends CI_Controller
     {
 
         // Validation succeeded, update the user data
-        $id['id_user'] = $this->input->post('idUser');
+
         $id_log['id_log'] = $this->input->post('idLog');
         $data['PK'] = $this->input->post('PK');
         $data['nama_kewenangan'] = $this->input->post('namaKewenangan');
         $data['no_rekam_medis'] = $this->input->post('noRekamMedis');
         $data['tindakan_keperawatan'] = $this->input->post('tindakan_keperawatan');
-        $data['role_id']    = $this->session->userdata('role_id');
+        $data['status'] = '1';
 
-        // Call the edit method from your M_user model
-        // echo "<pre>";
-        // print_r($id);
-        // print_r($id_log);
-        // print_r($data);
-        // echo "</pre>";
-        // die();
 
-        $this->M_logbook->edit($id, $id_log, $data);
+        $this->M_logbook->edit($id_log, $data);
 
         // Redirect to the profil route
         redirect('user/logbook');

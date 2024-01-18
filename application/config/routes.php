@@ -60,6 +60,7 @@ $route['user/halaman_utama']        = 'C_user';
 $route['user/profil']        = 'C_user/profil';
 $route['user/edit_profil']        = 'C_user/edit_profil';
 $route['user/tambah']        = 'C_user/tambah_data';
+$route['user/tambah_log']        = 'C_user/tambah_log';
 $route['user/updatelog']        = 'C_user/update_data_log';
 $route['user/ganti_pass']        = 'C_user/ganti_pass';
 $route['user/verif_pass']        = 'C_user/verif_ganti_pass';
@@ -86,9 +87,28 @@ $route['admin/get/(:num)']        = 'C_admin/get/$1';
 $route['admin/get_log/(:num)']        = 'C_admin/get_log/$1';
 $route['admin/edit']        = 'C_admin/edit';
 $route['admin/logbook']        = 'C_admin/logbook';
+$route['admin/logbook_riwayat']        = 'C_admin/logbook_riwayat';
 $route['admin/logbook_login']        = 'C_admin/logbook_login';
 $route['admin/logbook_cek']        = 'C_admin/logbook_login_cek';
 
+
+$route['admin_validator/halaman_utama']        = 'C_admin_validator';
+$route['admin_validator/data_perawat']        = 'C_admin_validator/data_perawat';
+$route['admin_validator/profil']        = 'C_admin_validator/profil';
+$route['admin_validator/edit_profil']        = 'C_admin_validator/edit_profil';
+$route['admin_validator/tambah_log']        = 'C_admin_validator/tambah_log';
+$route['admin_validator/updatelog']        = 'C_admin_validator/update_data_log';
+$route['admin_validator/ganti_pass']        = 'C_admin_validator/ganti_pass';
+$route['admin_validator/verif_pass']        = 'C_admin_validator/verif_ganti_pass';
+$route['admin_validator/jadwal']        = 'C_admin_validator/jadwal';
+$route['admin_validator/input_jadwal']        = 'C_admin_validator/input_jadwal';
+$route['admin_validator/get/(:num)']        = 'C_admin_validator/get/$1';
+$route['admin_validator/get_log/(:num)']        = 'C_admin_validator/get_log/$1';
+$route['admin_validator/edit']        = 'C_admin_validator/edit';
+$route['admin_validator/logbook']        = 'C_admin_validator/logbook';
+$route['admin_validator/logbook_riwayat']        = 'C_admin_validator/logbook_riwayat';
+$route['admin_validator/logbook_login']        = 'C_admin_validator/logbook_login';
+$route['admin_validator/logbook_cek']        = 'C_admin_validator/logbook_login_cek';
 $route['destroy_session']           = 'C_session_destroy';
 
 
