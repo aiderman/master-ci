@@ -28,14 +28,11 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
-                            <button type="button" class="btn btn-cart btn-info waves-effect" data-toggle="modal" data-target="#addLogModal">Tambah Catatan</button>
-
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>ID User</th>
                                             <th>Nama Ruangan</th>
                                             <th>Tanggal</th>
                                             <th>Shift</th>
@@ -51,9 +48,10 @@
                                     <tbody>
                                         <?php foreach ($logbook as $log) : ?>
                                             <tr>
-                                                <td> <button type="button" class="btn btn-cart btn-info waves-effect" data-toggle="modal" data-target="#addLogModal">update log </button>
+                                                <td> <?php if ($log->v_karo == 0 && $log->v_kabid == 0) : ?>
+                                                        <button type="button" class="btn btn-success" onclick="updateLog(<?= $log->id_user ?>)">Update Log</button>
+                                                    <?php endif; ?>
                                                 </td>
-                                                <td><?= $log->id_user ?></td>
                                                 <td><?= $log->nama_ruangan ?></td>
                                                 <td><?= $log->tanggal ?></td>
                                                 <td><?= $log->shift ?></td>
@@ -66,8 +64,18 @@
                                                         <div class="details-button" onclick="toggleText(this)">Lihat Lebih Banyak</div>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td><?= $log->v_karo ?></td>
-                                                <td><?= $log->v_kabid ?></td>
+                                                <td> <?php if ($log->v_karo == 1) : ?>
+                                                        <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
+                                                    <?php elseif ($log->v_karo == 0) : ?>
+                                                        <span>&#10008;</span> <!-- Tanda "x" jika v_karo == 0 -->
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?php if ($log->v_kabid == 1) : ?>
+                                                        <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
+                                                    <?php elseif ($log->v_kabid == 0) : ?>
+                                                        <span>&#10008;</span> <!-- Tanda "x" jika v_karo == 0 -->
+                                                    <?php endif; ?>
+                                                </td>
 
                                             </tr>
                                         <?php endforeach; ?>
@@ -83,12 +91,12 @@
 
 
     <!-- Modal untuk form tambah data -->
-    <div class="modal fade bs-example-modal-lg" id="addLogModal" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+    <div class="modal fade bs-example-modal-lg" id="editData" enctype="mutlipart/form-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
         <div class="modal-dialog modal-lg" role="document">
-            <?php echo form_open_multipart('user/tambah'); ?>
+            <?php echo form_open_multipart('user/updatelog'); ?>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Ubah Data</h4>
+                    <h4 class="modal-title">update log</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -102,20 +110,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="hidden" class="form-control" id="idUser" name="idUser">
-                                    <label for="namaRuangan">Nama Ruangan:</label>
-                                    <input type="text" class="form-control" id="namaRuangan" name="namaRuangan">
-                                </div>
-                                <div class="form-group">
-                                    <label for="tanggal">Tanggal:</label>
-                                    <input type="text" class="form-control" id="tanggal" name="tanggal">
-                                </div>
-                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="idLog" name="idLog">
                                     <label for="PK">PK:</label>
                                     <input type="text" class="form-control" id="PK" name="PK">
                                 </div>
-                            </div>
-                            <!-- Right column -->
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="namaKewenangan">Nama Kewenangan:</label>
                                     <input type="text" class="form-control" id="namaKewenangan" name="namaKewenangan">
@@ -124,9 +122,12 @@
                                     <label for="noRekamMedis">No. Rekam Medis:</label>
                                     <input type="text" class="form-control" id="noRekamMedis" name="noRekamMedis">
                                 </div>
+                            </div>
+                            <!-- Right column -->
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="PK">Tindakan Keperawatan:</label>
-                                    <input type="textarea" class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan">
+                                    <textarea rows="4" class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan" placeholder="Please type what you want..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -146,6 +147,26 @@
 
 
     <?php $this->load->view('script'); ?>
+    <script>
+        function updateLog(id) {
+            //Ajax Load data from ajax
+
+            $.ajax({
+                url: "<?php echo site_url('user/get_log') ?>/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    $('[name=idUser]').val(data.id_user);
+                    $('[name=idLog]').val(data.id_log);
+
+                    $('#editData').modal('show'); // show bootstrap modal when complete loaded
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+    </script>
 
     <script>
         function toggleText(element) {

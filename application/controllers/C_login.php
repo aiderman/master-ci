@@ -72,11 +72,11 @@ class C_login extends CI_Controller
                 } elseif ($data['role_id'] == 2) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");
-                    redirect('admin/halaman-utama', $data);
+                    redirect('admin/halaman_utama', $data);
                 } elseif ($data['role_id'] == 3) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");
-                    redirect('admin-validator/halaman-utama', $data);
+                    redirect('admin-validator/halaman_utama', $data);
                 }
             } else {
                 $this->session->set_flashdata('error', "Masuk Gagal! anda belum terdaftar atau username/kata sandi anda salah");

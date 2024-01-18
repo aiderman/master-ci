@@ -72,7 +72,22 @@ $route['user/logbook']        = 'C_user/logbook';
 $route['user/logbook_login']        = 'C_user/logbook_login';
 $route['user/logbook_cek']        = 'C_user/logbook_login_cek';
 
-
+$route['admin/halaman_utama']        = 'C_admin';
+$route['admin/data_perawat']        = 'C_admin/data_perawat';
+$route['admin/profil']        = 'C_admin/profil';
+$route['admin/edit_profil']        = 'C_admin/edit_profil';
+$route['admin/tambah_log']        = 'C_admin/tambah_log';
+$route['admin/updatelog']        = 'C_admin/update_data_log';
+$route['admin/ganti_pass']        = 'C_admin/ganti_pass';
+$route['admin/verif_pass']        = 'C_admin/verif_ganti_pass';
+$route['admin/jadwal']        = 'C_admin/jadwal';
+$route['admin/input_jadwal']        = 'C_admin/input_jadwal';
+$route['admin/get/(:num)']        = 'C_admin/get/$1';
+$route['admin/get_log/(:num)']        = 'C_admin/get_log/$1';
+$route['admin/edit']        = 'C_admin/edit';
+$route['admin/logbook']        = 'C_admin/logbook';
+$route['admin/logbook_login']        = 'C_admin/logbook_login';
+$route['admin/logbook_cek']        = 'C_admin/logbook_login_cek';
 
 $route['destroy_session']           = 'C_session_destroy';
 

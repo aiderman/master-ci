@@ -21,10 +21,20 @@ class M_user extends CI_Model
         $this->db->where($id);
         return $this->db->get($this->table)->row_array();
     }
+    function get_all_where($id)
+    {
+        $this->db->where($id);
+        return $this->db->get($this->table)->result();
+    }
     function get_where_data($user, $pass)
     {
         $this->db->where('username', $user);
         $this->db->where('password', $pass);
+        return $this->db->get($this->table)->result();
+    }
+    function get_only_user($id)
+    {
+        $this->db->where('role_id', $id);
         return $this->db->get($this->table)->result();
     }
 
