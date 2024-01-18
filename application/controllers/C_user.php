@@ -24,17 +24,12 @@ class C_user extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
-
         $data['username']   = $this->session->userdata('username');
         $data['password']   = $this->session->userdata('password');
-        $data['status']     = $this->session->userdata('status');
         $data['role_id']    = $this->session->userdata('role_id');
         $data['position']   = $this->session->userdata('position');
         $data['image']      = $this->session->userdata('image');
-
         $data['detail_menu_id'] = $this->session->userdata('detail_menu_id');
-        $data['id_menu_d']  = $this->session->userdata('id_menu_d');
-        $data['menu_id']    = $this->session->userdata('menu_id');
         $data['title']      = $this->session->userdata('title');
         $data['url']        = $this->session->userdata('url');
         $data['icon']       = $this->session->userdata('icon');
@@ -42,7 +37,7 @@ class C_user extends CI_Controller
         $data['logbook'] = $this->M_logbook->get_where($id);
 
         // echo "<pre>";
-        // print_r($data['logbook']);
+        // print_r($data);
         // echo "</pre>";
         // die();
 
@@ -78,6 +73,7 @@ class C_user extends CI_Controller
     {
         $data['name']       = $this->session->userdata('name');
         $id['id_user']    = $this->session->userdata('id_user');
+        $data['role_id']    = $this->session->userdata('role_id');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $data['pengalaman'] = $this->db->get_where('t_pengalaman', $id)->result_array();
 
@@ -100,6 +96,7 @@ class C_user extends CI_Controller
     public function ganti_pass()
     {
         $data['name']       = $this->session->userdata('name');
+        $data['role_id']    = $this->session->userdata('role_id');
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $this->load->view("user/ganti_pass", $data);
@@ -111,7 +108,7 @@ class C_user extends CI_Controller
         $data['password_terkini'] = $this->input->post('Password_terkini');
         $data['password'] = $this->input->post('Password');
         $data['konfirmasi_password'] = $this->input->post('konfirmasi_Password');
-
+        $data['role_id']    = $this->session->userdata('role_id');
         $this->form_validation->set_rules('Password_terkini', 'Password Terkini', 'required');
         $this->form_validation->set_rules('Password', 'Password', 'required');
         $this->form_validation->set_rules('konfirmasi_Password', 'Konfirmasi Password', 'required|matches[Password]');
@@ -216,7 +213,7 @@ class C_user extends CI_Controller
         $data['nama_kewenangan'] = $this->input->post('namaKewenangan');
         $data['no_rekam_medis'] = $this->input->post('noRekamMedis');
         $data['tindakan_keperawatan'] = $this->input->post('tindakan_keperawatan');
-
+        $data['role_id']    = $this->session->userdata('role_id');
 
         // Call the edit method from your M_user model
         // echo "<pre>";

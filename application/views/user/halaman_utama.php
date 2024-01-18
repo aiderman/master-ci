@@ -94,9 +94,9 @@
 
         logbookData.forEach(function(log) {
             $('#calendar').fullCalendar('renderEvent', {
-                title: 'Tindakan Keperawatan',
+                title: log.nama_ruangan,
                 start: log.tanggal,
-                description: log.tindakan_keperawatan,
+                description: log.id_user,
                 className: 'bg-red'
             }, true);
         });
