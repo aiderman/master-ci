@@ -46,17 +46,15 @@
                     <div class="col-md-12 col-lg-4 col-xl-4">
                         <div class="body">
                             <!-- External Events -->
-                            <button type="button" class="btn btn-round btn-info waves-effect" data-toggle="modal" data-target="#addevent">input jadwal</button>
                             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-Schedule" aria-expanded="false" aria-controls="collapseExample"><i class="zmdi zmdi-chevron-down"></i></button>
                             <div class="collapse-xs collapse-sm collapse" id="open-Schedule">
                                 <hr>
                                 <div class="event-name b-primary row">
-                                    <div class="col-2 text-center">
-                                        <h4>11<span>Dec</span><span>2017</span></h4>
-                                    </div>
-                                    <div class="col-10">
-                                        <h6>Conference</h6>
-                                        <p>It is a long established fact that a reader will be distracted</p>
+                                    <div class="col-12">
+                                        <h6>jadwal shift</h6>
+                                        <p>pagi (7.30- 14.00)</p>
+                                        <p>shift sore (14.00-21.00)</p>
+                                        <p>shift malam (21.00-07.30)</p>
                                         <address><i class="zmdi zmdi-pin"></i> 123 6th St. Melbourne, FL 32904</address>
                                     </div>
                                 </div>
@@ -69,40 +67,11 @@
         </div>
     </section>
 
-    <!-- Default Size -->
-    <div class="modal fade" id="addevent" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="title" id="defaultModalLabel">Add Schedule</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="number" class="form-control" placeholder="Event Date">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" class="form-control" placeholder="Event Title">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-line">
-                            <textarea class="form-control no-resize" placeholder="Event Description..."></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-round waves-effect">Add</button>
-                    <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <?php $this->load->view('script'); ?>
     <script>
+        var logbookData = <?php echo json_encode($logbook); ?>;
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev',
@@ -120,14 +89,16 @@
                 }
             },
             eventLimit: true, // allow "more" link when too many events
-            events: [{
-                    title: 'Long Event',
-                    start: '2024-01-07',
-                    end: '2024-01-07',
-                    className: 'bg-cyan'
-                }
+            events: []
+        });
 
-            ]
+        logbookData.forEach(function(log) {
+            $('#calendar').fullCalendar('renderEvent', {
+                title: 'Tindakan Keperawatan',
+                start: log.tanggal,
+                description: log.tindakan_keperawatan,
+                className: 'bg-red'
+            }, true);
         });
         // Previous month action
         $('#cal-prev').on('click', function() {

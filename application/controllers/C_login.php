@@ -42,22 +42,18 @@ class C_login extends CI_Controller
         $username    = $this->input->post('username');
         $password    = $this->input->post('password');
 
-        $user = $this->db->get_where('user_data', ['username' => $username])->row_array();
+        $user = $this->db->get_where('t_users', ['username' => $username])->row_array();
 
         if ($user != " ") {
             if ($user['password'] == $password && $user['username'] == $username) {
                 $data['id_user']    = $user['id_user'];
                 $data['name']       = $user['name'];
-                $data['email']      = $user['email'];
                 $data['username']   = $user['username'];
                 $data['password']   = $user['password'];
                 $data['status']     = $user['status'];
                 $data['role_id']    = $user['role_id'];
                 $data['position']   = $user['position'];
                 $data['image']      = $user['image'];
-                $data['role']       = $user['role'];
-                $data['id_menu']    = $user['id_menu'];
-                $data['menu']       = $user['menu'];
                 $data['detail_menu_id'] = $user['detail_menu_id'];
                 $data['id_menu_d']  = $user['id_menu_d'];
                 $data['menu_id']    = $user['menu_id'];
@@ -65,10 +61,10 @@ class C_login extends CI_Controller
                 $data['url']        = $user['url'];
                 $data['icon']       = $user['icon'];
 
-                echo "<pre>";
-                print_r($data);
-                echo "</pre>";
-                die();
+                // echo "<pre>";
+                // print_r($data);
+                // echo "</pre>";
+                // die();
                 if ($data['role_id'] == 1) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");

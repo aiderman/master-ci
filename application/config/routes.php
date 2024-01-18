@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller']        = 'c_login';
+
 $route['login']                     = 'c_login';
 $route['logout']                    = 'c_login/logout';
 $route['cek_login']                 = 'c_login/cek_login';
@@ -57,10 +57,20 @@ $route['cek_login']                 = 'c_login/cek_login';
 // user
 
 $route['user/halaman_utama']        = 'C_user';
+$route['user/profil']        = 'C_user/profil';
 $route['user/edit_profil']        = 'C_user/edit_profil';
+$route['user/tambah']        = 'C_user/tambah_data';
+$route['user/updatelog']        = 'C_user/update_data_log';
 $route['user/ganti_pass']        = 'C_user/ganti_pass';
+$route['user/verif_pass']        = 'C_user/verif_ganti_pass';
 $route['user/jadwal']        = 'C_user/jadwal';
 $route['user/input_jadwal']        = 'C_user/input_jadwal';
+$route['user/get/(:num)']        = 'C_user/get/$1';
+$route['user/get_log/(:num)']        = 'C_user/get_log/$1';
+$route['user/edit']        = 'C_user/edit';
+$route['user/logbook']        = 'C_user/logbook';
+$route['user/logbook_login']        = 'C_user/logbook_login';
+$route['user/logbook_cek']        = 'C_user/logbook_login_cek';
 
 
 
@@ -71,6 +81,6 @@ $route['destroy_session']           = 'C_session_destroy';
 $route['error']                     = 'Error_empty';
 $route['destroy_session']           = 'C_session_destroy';
 
-
+$route['default_controller']        = 'c_login';
 $route['404_override']              = 'Error_404';
 $route['translate_uri_dashes']      = FALSE;

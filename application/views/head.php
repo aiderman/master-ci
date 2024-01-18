@@ -12,4 +12,24 @@
     <!-- Custom Css -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/main.css">
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/color_skins.css">
+    <style>
+        .limited-lines {
+            max-width: 20em;
+            max-height: 10em;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .expanded {
+            max-width: none;
+            max-height: none;
+            white-space: normal;
+        }
+
+        .details-button {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
 </head>

@@ -6,3 +6,5 @@
 
 <script src="<?= base_url(); ?>assets/bundles/mainscripts.bundle.js"></script><!-- Custom Js -->
 <script src="<?= base_url(); ?>assets/js/pages/calendar/calendar.js"></script>
+
+<?php $this->load->view('alert'); ?>

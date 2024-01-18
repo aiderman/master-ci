@@ -8,12 +8,7 @@
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
                 <li class="hidden-sm-down">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-addon">
-                            <i class="zmdi zmdi-search"></i>
-                        </span>
-                    </div>
+
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
