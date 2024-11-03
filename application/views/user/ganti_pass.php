@@ -8,7 +8,7 @@
     <div class="page-loader-wrapper">
         <div class="loader">
             <div class="m-t-30"><img class="zmdi-hc-spin" src="<?= base_url(); ?>assets/images/logo.png" width="48" height="48" alt="Compass"></div>
-            <p>Please wait...</p>
+            <p>Mohon Menunggu...</p>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2>Ganti Password
+                    <h2>Ubah Sandi
                         <small class="text-muted"></small>
                     </h2>
                 </div>
