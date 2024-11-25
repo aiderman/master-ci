@@ -34,9 +34,12 @@ class C_user extends CI_Controller
         $data['position']   = $this->session->userdata('position');
         $data['image']      = $this->session->userdata('image');
         $data['logbook'] = $this->M_log_user->all();
-
         $role_id = '1';
         $data['users'] = $this->M_user->get_only_user($role_id);
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
         $this->load->view("user/logbook_login", $data);
     }
 
@@ -193,6 +196,7 @@ class C_user extends CI_Controller
 
 
                 if ($data['role_id'] == 1) {
+
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");
                     redirect('user/logbook', $data);
@@ -210,8 +214,6 @@ class C_user extends CI_Controller
     public function logbook()
     {
 
-
-
         $role_id = '1';
         $data['users'] = $this->M_user->get_only_user($role_id);
         $data['id_user']    = $this->session->userdata('id_user');
@@ -225,10 +227,10 @@ class C_user extends CI_Controller
         $data['logbook'] = $this->M_log_user->get_where_user($id, $status);
         $data['perawat'] = $this->M_list_perawat->get_by_user_id($id['id_user']);
 
-        //  echo "<pre>";
-        //         print_r($data);
-        //         echo "</pre>";
-        //         die();
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
         $this->load->view("user/logbook", $data);
     }
 
@@ -236,6 +238,7 @@ class C_user extends CI_Controller
     {
 
         $role_id = '1';
+        $data['image']    = $this->session->userdata('image');
         $data['users'] = $this->M_user->get_only_user($role_id);
         $data['id_user']    = $this->session->userdata('id_user');
         $data['id_log'] =  $id_log;
@@ -340,7 +343,7 @@ class C_user extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
-
+        $data['image']    = $this->session->userdata('image');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $status = '3';
         // Ambil data logbook dari model
@@ -378,6 +381,7 @@ class C_user extends CI_Controller
     public function profil()
     {
         $data['name']       = $this->session->userdata('name');
+        $data['image']    = $this->session->userdata('image');
         $id['id_user']    = $this->session->userdata('id_user');
         $data['role_id']    = $this->session->userdata('role_id');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
@@ -416,7 +420,7 @@ class C_user extends CI_Controller
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
         $id['id_user']    = $this->session->userdata('id_user');
-
+        $data['image']    = $this->session->userdata('image');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $this->load->view("user/ganti_pass", $data);
     }

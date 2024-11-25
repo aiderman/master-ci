@@ -41,16 +41,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-    <?php foreach ($perawat as $row) : ?>
-        <?php $nullOb="Belum di input"?>
-        <tr>
-            <td><?= !empty($row->tanggal) ? date('d-m-Y', strtotime($row->tanggal)) : $nullOb ?></td>
-            <td><?= !empty($row->piket) ? $row->piket : $nullOb ?></td>
-            <td><?= !empty($row->nama_perawat) ? $row->nama_perawat : $nullOb ?></td>
-            <td><?= !empty($row->ruangan) ? $row->ruangan : $nullOb ?></td>
-        </tr>
-    <?php endforeach; ?>
-</tbody>
+                                        <?php foreach ($perawat as $row) : ?>
+                                            <?php $nullOb = "Belum di input" ?>
+                                            <tr>
+                                                <td><?= !empty($row->tanggal) ? date('d-m-Y', strtotime($row->tanggal)) : $nullOb ?></td>
+                                                <td><?= !empty($row->piket) ? $row->piket : $nullOb ?></td>
+                                                <td><?= !empty($row->nama_perawat) ? $row->nama_perawat : $nullOb ?></td>
+                                                <td><?= !empty($row->ruangan) ? $row->ruangan : $nullOb ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
 
                                 </table>
                             </div>
@@ -90,6 +90,7 @@
                             <label for="tanggal">Tanggal</label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                         </div>
+
 
                         <div class="form-group">
                             <label for="name">Pilih Perawat </label>
@@ -198,6 +199,24 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil elemen input tanggal
+            var tanggalInput = document.getElementById('tanggal');
+
+            // Dapatkan tanggal hari ini dalam format YYYY-MM-DD
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = String(today.getMonth() + 1).padStart(2, '0');
+            var day = String(today.getDate()).padStart(2, '0');
+            var todayDate = year + '-' + month + '-' + day;
+
+            // Set atribut min pada elemen input
+            tanggalInput.setAttribute('min', todayDate);
+        });
+    </script>
+
     <?php $this->load->view('script'); ?>
 </body>
 

@@ -54,9 +54,17 @@ class M_user extends CI_Model
     }
     function get($id)
     {
-        $this->db->where($id);
-        return $this->db->get($this->table)->row_array();
+        $this->db->select('*');
+        $this->db->from('t_users');
+        $this->db->where('id_user', $id);  // Menyesuaikan dengan parameter ID
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array(); // Mengembalikan hasil query
+        }
+        return false;  // Mengembalikan false jika tidak ada data
     }
+
     function get_all_where($id)
     {
         $this->db->where($id);
@@ -81,6 +89,9 @@ class M_user extends CI_Model
     }
     function tambah($data)
     {
-        $this->db->insert($this->table, $data);
+        echo "<pre>";
+        var_dump($data);
+        echo "</pre>";
+        return $this->db->insert('t_users', $data);
     }
 }

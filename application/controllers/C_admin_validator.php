@@ -13,10 +13,8 @@ class C_admin_validator extends CI_Controller
         $this->load->model('M_log_user');
         $this->load->model('M_user_logbook');
         $this->load->model('M_list_perawat');
-
         $this->load->helper(array('file', 'url', 'form'));
         $this->load->library('form_validation');
-
         if (!($this->session->userdata('username'))) {
             redirect('admin_validator/halaman_utama');
         }
@@ -38,11 +36,6 @@ class C_admin_validator extends CI_Controller
         $data['users'] = $this->M_user->get_only_user($role_id);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-        // echo "<pre>";
-        // print_r($data['logbook']);
-        // echo "</pre>";
-        // die();
-
         $this->load->view("admin_validator/logbook_login", $data);
     }
 
@@ -58,66 +51,52 @@ class C_admin_validator extends CI_Controller
         $data['position'] = $this->session->userdata('position');
         $data['image'] = $this->session->userdata('image');
         $data['logbook'] = $this->M_log_user->all();
-
         $role_id = '1';
         $data['users'] = $this->M_user->get_only_user($role_id);
-
         $user_id = $this->input->post('user_id');
-
         $config['upload_path'] = './uploads/profile/';
         $config['allowed_types'] = '*';
-        $config['max_size'] = 2048; // Maksimal ukuran file 2MB
-        $config['encrypt_name'] = TRUE; // Untuk mengacak nama file yang di-upload
+        $config['max_size'] = 2048;
+        $config['encrypt_name'] = TRUE;
 
         $this->load->library('upload', $config);
-
-        // Proses upload file
         if ($this->upload->do_upload('profile_photo')) {
-            // Jika upload berhasil
             $dataupload = $this->upload->data();
             $file_name = $dataupload['file_name'];
-
-
-            // Update foto profil pengguna di database
             $this->M_user->update_profile_image($user_id, $file_name);
-
-            // Set pesan sukses dan redirect ke halaman profil
             $this->session->set_flashdata('success', 'Foto profil berhasil diubah');
             redirect('admin_validator/profil', $data);
         } else {
-            // Jika upload gagal
             $error = $this->upload->display_errors();
-            // var_dump($error);
-            // die();
             $this->session->set_flashdata('error', $error);
             redirect('admin_validator/profil', $data);
         }
     }
 
-
     public function exportLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
-        $status='1';
-        $data['logbook'] = $this->M_log_user->get_where_log_userId($id,$status);
+        $status = '1';
+        $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
-        $this->dompdf->set_paper('A4', 'landscape'); 
+        $this->dompdf->set_paper('A4', 'landscape');
         $this->dompdf->render();
-        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0)); 
+        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0));
     }
+
     public function exportHistoryLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
-        $status='3';
+        $status = '3';
         $data['logbook'] = $this->M_user_logbook->get_where_status($status);
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
-        $this->dompdf->set_paper('A4', 'landscape'); 
+        $this->dompdf->set_paper('A4', 'landscape');
         $this->dompdf->render();
-        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0)); 
+        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0));
     }
 
     public function data_perawat()
@@ -125,7 +104,7 @@ class C_admin_validator extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
-
+        $data['image']    = $this->session->userdata('image');
         $data['username']   = $this->session->userdata('username');
         $data['password']   = $this->session->userdata('password');
         $data['status']     = $this->session->userdata('status');
@@ -135,10 +114,6 @@ class C_admin_validator extends CI_Controller
         $idx['role_id'] = '1';
         $data['data_perawat'] = $this->M_user->get_all_where($idx);
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-        // echo "<pre>";
-        // print_r($data['user']);
-        // echo "</pre>";
-        // die();
 
         $this->load->view("admin_validator/dataperawat", $data);
     }
@@ -146,7 +121,6 @@ class C_admin_validator extends CI_Controller
     public function edit()
     {
 
-        // Validation succeeded, update the user data
         $id['id_user'] = $this->input->post('ed_id');
         $data['name'] = $this->input->post('ed_name');
         $data['username'] = $this->input->post('ed_username');
@@ -155,40 +129,24 @@ class C_admin_validator extends CI_Controller
         $data['str_berlaku'] = $this->input->post('ed_str_berlaku');
         $data['str_selesai'] = $this->input->post('ed_str_selesai');
         $data['ruangan'] = $this->input->post('ed_ruangan');
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-        // die();
-        // Call the edit method from your M_user model
+        $data['image']    = $this->session->userdata('image');
         $this->M_user->edit($id, $data);
-
-        // Set flash data for success
         $this->session->set_flashdata('success', "Data Berhasil Diubah!");
 
-        // Redirect to the profil route
         redirect('admin_validator/profil');
     }
+
     public function tambah_log()
     {
-
-        // Validation succeeded, update the user data
         $data['id_user'] = $this->input->post('idUser');
         $data['tanggal'] = $this->input->post('tanggal');
         $data['shift'] = $this->input->post('shift');
         $data['nama_ruangan'] = $this->input->post('nama_ruangan');
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-        // die();
-        // Call the edit method from your M_user model
         $this->M_logbook->tambah($data);
-
-        // Set flash data for success
         $this->session->set_flashdata('success', "Data Berhasil Diubah!");
-
-        // Redirect to the profil route
         redirect('admin_validator/halaman_utama');
     }
+
     public function profil()
     {
         $data['role_id']       = $this->session->userdata('role_id');
@@ -196,6 +154,7 @@ class C_admin_validator extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $data['pengalaman'] = $this->db->get_where('t_pengalaman', $id)->result_array();
+        $data['image']    = $this->session->userdata('image');
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
@@ -208,13 +167,13 @@ class C_admin_validator extends CI_Controller
         $data = $this->M_user->get($id);
         echo json_encode($data);
     }
+
     public function get_log($ids)
     {
         $id['id_log'] = $ids;
         $data = $this->M_log_user->get($id);
         echo json_encode($data);
     }
-
 
     public function ganti_pass()
     {
@@ -232,7 +191,6 @@ class C_admin_validator extends CI_Controller
         $data['password_terkini'] = $this->input->post('Password_terkini');
         $data['password'] = $this->input->post('Password');
         $data['konfirmasi_password'] = $this->input->post('konfirmasi_Password');
-
         $this->form_validation->set_rules('Password_terkini', 'Password Terkini', 'required');
         $this->form_validation->set_rules('Password', 'Password', 'required');
         $this->form_validation->set_rules('konfirmasi_Password', 'Konfirmasi Password', 'required|matches[Password]');
@@ -246,24 +204,15 @@ class C_admin_validator extends CI_Controller
             $datapas = $this->M_user->check_current_password($id, $password);
             $ids = array('id_user' =>   $id);
             $datas = array('password' =>  $data['password']);
-            // echo "<pre>";
-            // print_r($datapas);
-            // echo "</pre>";
-            // die();
             if ($datapas) {
                 $this->M_user->edit($ids, $datas);
                 $this->session->set_flashdata('add', "success");
                 redirect('admin_validator/ganti_pass'); // Replace 'success_page' with the actual URL
             } else {
-
                 $this->session->set_flashdata('error', "Gagal! Kata sandi lama tidak sesuai");
                 redirect("admin_validator/ganti_pass");
             }
         }
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-        // die();
         redirect("admin_validator/ganti_pass");
     }
 
@@ -273,12 +222,8 @@ class C_admin_validator extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
-
+        $data['image']    = $this->session->userdata('image');
         $data['logbook'] = $this->M_logbook->get_where($id);
-        // echo "<pre>";
-        // print_r($data['logbook']);
-        // echo "</pre>";
-        // die();
         $this->load->view('admin_validator/logbook_login', $data);
     }
 
@@ -286,9 +231,7 @@ class C_admin_validator extends CI_Controller
     {
         $username    = $this->input->post('username');
         $password    = $this->input->post('password');
-
         $user = $this->db->get_where('t_users', ['username' => $username])->row_array();
-
         if ($user != " ") {
             if ($user['password'] == $password && $user['username'] == $username) {
                 $data['id_user']    = $user['id_user'];
@@ -324,15 +267,10 @@ class C_admin_validator extends CI_Controller
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
         $status['status']    = 2;
-
+        $data['image']    = $this->session->userdata('image');
         $data['logbook'] = $this->M_log_user->get_where_status($status);
-  $id['id_user']    = $this->session->userdata('id_user');
+        $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-        // echo "<pre>";
-        // print_r($data['logbook']);
-        // echo "</pre>";
-        // die();
-
         $this->load->view("admin_validator/logbook", $data);
     }
     public function logbook_riwayat()
@@ -341,38 +279,18 @@ class C_admin_validator extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
-    
+        $data['image']    = $this->session->userdata('image');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-
         $status['status']    = "3";
         $data['logbook'] = $this->M_log_user->get_where_status($status);
-
-        // echo "<pre>";
-        // print_r($data['logbook']);
-        // echo "</pre>";
-        // die();
-
         $this->load->view("admin_validator/logbook_riwayat", $data);
     }
     public function update_data_log()
     {
-
-        // Validation succeeded, update the user data
-
         $id_log['id_log'] = $this->input->post('idLog');
         $data['sifat'] = $this->input->post('nilai');
         $data['status'] = '3';
-
-
-        // echo "<pre>";
-        // print_r($id_log);
-        // print_r($data);
-        // echo "</pre>";
-        // die();
-
         $this->M_logbook->edit($id_log, $data);
-
-        // Redirect to the profil route
         redirect('admin_validator/logbook');
     }
 }

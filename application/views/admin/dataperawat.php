@@ -170,44 +170,62 @@
                 <div class="modal-body">
                     <!-- Form Tambah Data -->
                     <form id="formTambahData" action="<?= base_url('admin/tambahUser'); ?>" method="post">
-                        <!-- Isi form sesuai dengan atribut yang ingin ditambahkan -->
+                        <!-- Validasi Nama -->
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama">
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" required maxlength="50">
                         </div>
+                        <!-- Validasi Username -->
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Username">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Username" required maxlength="50" pattern="^[a-zA-Z0-9_]+$" title="Hanya huruf, angka, dan underscore yang diperbolehkan">
                         </div>
+
+                        <div class="form-group">
+                            <label for="nama">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" placeholder="Masukkan Pass" required maxlength="50">
+                        </div>
+
+                        <!-- Validasi Position -->
                         <div class="form-group">
                             <label for="position">Position</label>
-                            <input type="text" class="form-control" id="position" name="position" placeholder="Masukkan Posisi">
+                            <input type="text" class="form-control" id="position" name="position" placeholder="Masukkan Posisi" required maxlength="50">
                         </div>
+
+                        <!-- Validasi NRP (harus angka) -->
                         <div class="form-group">
                             <label for="NRP">NRP</label>
-                            <input type="text" class="form-control" id="NRP" name="NRP" placeholder="Masukkan NRP">
+                            <input type="text" class="form-control" id="NRP" name="NRP" placeholder="Masukkan NRP" required pattern="^[0-9]+$" title="NRP harus berupa angka">
                         </div>
+
+                        <!-- Validasi Pendidikan -->
                         <div class="form-group">
                             <label for="pendidikan">Pendidikan</label>
-                            <input type="text" class="form-control" id="pendidikan" name="pendidikan" placeholder="Masukkan Pendidikan">
+                            <input type="text" class="form-control" id="pendidikan" name="pendidikan" placeholder="Masukkan Pendidikan" required maxlength="100">
                         </div>
+
+                        <!-- Validasi Ruangan -->
                         <div class="form-group">
                             <label for="ruangan">Ruangan</label>
-                            <input type="text" class="form-control" id="ruangan" name="ruangan" placeholder="Ruangan">
+                            <input type="text" class="form-control" id="ruangan" name="ruangan" placeholder="Ruangan" required maxlength="100">
                         </div>
+
+                        <!-- Validasi STR Berlaku -->
                         <div class="form-group">
                             <label for="str_berlaku">STR Berlaku</label>
-                            <input type="date" class="form-control" id="str_berlaku" name="str_berlaku">
+                            <input type="date" class="form-control" id="str_berlaku" name="str_berlaku" required>
                         </div>
+
+                        <!-- Validasi STR Selesai -->
                         <div class="form-group">
                             <label for="str_selesai">STR Selesai</label>
-                            <input type="date" class="form-control" id="str_selesai" name="str_selesai">
+                            <input type="date" class="form-control" id="str_selesai" name="str_selesai" required>
                         </div>
-                        <!-- ... tambahkan atribut lainnya sesuai kebutuhan -->
 
                         <!-- Tombol Submit -->
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </form>
+
                 </div>
             </div>
         </div>

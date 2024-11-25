@@ -62,10 +62,7 @@ class C_login extends CI_Controller
                 $data['ruangan']        = $user['ruangan'];
                 $data['image']      = $user['image'];
 
-                // echo "<pre>";
-                // print_r($data);
-                // echo "</pre>";
-                // die();
+
                 if ($data['role_id'] == 1) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");

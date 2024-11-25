@@ -97,32 +97,28 @@ class C_admin extends CI_Controller
     public function exportLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
-        $status='2';
-            // echo "<pre>";
-        //         print_r($datapas);
-        //         echo "</pre>";
-        //         die();
+        $status = '2';
         $data['logbook'] = $this->M_user_logbook->get_where_status($status);
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
-        $this->dompdf->set_paper('A4', 'landscape'); 
+        $this->dompdf->set_paper('A4', 'landscape');
         $this->dompdf->render();
-        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0)); 
+        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0));
     }
 
 
     public function exportHistoryLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
-        $status='3';
+        $status = '3';
         $data['logbook'] = $this->M_user_logbook->get_where_status($status);
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
-        $this->dompdf->set_paper('A4', 'landscape'); 
+        $this->dompdf->set_paper('A4', 'landscape');
         $this->dompdf->render();
-        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0)); 
+        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0));
     }
 
 
@@ -135,6 +131,7 @@ class C_admin extends CI_Controller
         $data['position'] = $this->input->post('position');
         $data['nrp'] = $this->input->post('nrp');
         $data['pendidikan'] = $this->input->post('pendidikan');
+        $data['image']    = $this->session->userdata('image');
 
         // Update data pengguna di model
         if ($this->M_user->edit($id, $data)) {
@@ -173,7 +170,7 @@ class C_admin extends CI_Controller
 
     public function data_perawat()
     {
-   
+
         $data['id_user'] = $this->session->userdata('id_user');
         $data['name'] = $this->session->userdata('name');
         $data['username'] = $this->session->userdata('username');
@@ -186,41 +183,89 @@ class C_admin extends CI_Controller
 
         $data['data_perawat'] = $this->M_user->get_all_where($idx);
         $id['id_user']    = $this->session->userdata('id_user');
-     $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-                // print_r($data);
-                // echo "</pre>";
-                // die();
+        $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+        // print_r($data);
+        // echo "</pre>";
+        // die();
         $this->load->view("admin/dataperawat", $data);
     }
 
 
+    // public function tambahUser()
+    // {
+    //     $data['name'] = $this->input->post('nama');
+    //     $data['username'] = $this->input->post('username');
+    //     $data['password'] = $this->input->post('username');
+    //     $data['position'] = $this->input->post('position');
+    //     $data['nrp'] = $this->input->post('NRP');
+    //     $data['ruangan'] = $this->input->post('ruangan');
+    //     $data['pendidikan'] = $this->input->post('pendidikan');
+    //     $data['str_berlaku'] = $this->input->post('str_berlaku');
+    //     $data['str_selesai'] = $this->input->post('str_selesai');
+    //     $data['image'] = "default.jpg";
+    //     $data['role_id'] = '1';
+    //     $data['Pengalaman_id'] = '1';
+    //     $id['id_user']    = $this->session->userdata('id_user');
+    //     $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+    //     // Panggil model untuk menambahkan data
+    //     $datapas = $this->M_user->tambah($data);
+    //              echo "<pre>";
+    //     print_r($data);
+    //     echo "</pre>";
+    //     die();
+
+    //     if (!$datapas) {
+    //         $this->session->set_flashdata('error', "Gagal menambahkan data!");
+    //         redirect("admin/data_perawat", $data);
+    //     } else {
+    //         $this->session->set_flashdata('add', "Data berhasil ditambahkan!");
+    //         redirect("admin/data_perawat", $data);
+    //     }
+    // }
+
     public function tambahUser()
     {
-        $data['name'] = $this->input->post('nama');
-        $data['username'] = $this->input->post('username');
-        $data['password'] = $this->input->post('username');
-        $data['position'] = $this->input->post('position');
-        $data['nrp'] = $this->input->post('NRP');
-        $data['ruangan'] = $this->input->post('ruangan');
-        $data['pendidikan'] = $this->input->post('pendidikan');
-        $data['str_berlaku'] = $this->input->post('str_berlaku');
-        $data['str_selesai'] = $this->input->post('str_selesai');
-        $data['image'] = "default.jpg";
-        $data['role_id'] = '1';
-        $data['Pengalaman_id'] = '1';
-        $id['id_user']    = $this->session->userdata('id_user');
-     $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-        // Panggil model untuk menambahkan data
-        $datapas = $this->M_user->tambah($data);
+        $datas = [
+            'name' => $this->input->post('nama'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'position' => $this->input->post('position'),
+            'nrp' => $this->input->post('NRP'),
+            'ruangan' => $this->input->post('ruangan'),
+            'pendidikan' => $this->input->post('pendidikan'),
+            'str_berlaku' => $this->input->post('str_berlaku'),
+            'str_selesai' => $this->input->post('str_selesai'),
+            'role_id' => '1',
+            'Pengalaman_id' => '1',
+        ];
 
+        // Mengambil id_user dari session untuk digunakan dalam query
+        $id_user = $this->session->userdata('id_user');
+
+        // Memasukkan data pengguna ke dalam database
+        $datapas = $this->M_user->tambah($datas);
+
+        // Mendapatkan data user menggunakan id_user
+        $data['user'] = $this->M_user->get($id_user);
+
+        // Debugging untuk melihat data yang dikirim
+        // echo "<pre>";
+        // print_r($datas);
+        // echo "</pre>";
+        // die();
+
+        // Menampilkan pesan flash sesuai dengan hasil
         if (!$datapas) {
             $this->session->set_flashdata('error', "Gagal menambahkan data!");
-            redirect("admin/data_perawat",$data);
         } else {
             $this->session->set_flashdata('add', "Data berhasil ditambahkan!");
-            redirect("admin/data_perawat",$data);
         }
+
+        // Redirect ke halaman data perawat
+        redirect("admin/data_perawat", $data);
     }
+
+
 
     public function tambahJadwalPerawat()
     {
@@ -237,12 +282,12 @@ class C_admin extends CI_Controller
         //         print_r($data);
         //         echo "</pre>";
         //         die();
-        if ($datapas==true) {
+        if ($datapas == true) {
             $this->session->set_flashdata('add', "sukses");
-            redirect('admin/jadwal_perawat',$data); // Replace 'success_page' with the actual URL
+            redirect('admin/jadwal_perawat', $data); // Replace 'success_page' with the actual URL
         } else {
             $this->session->set_flashdata('error', "gagal menyimpan data!");
-            redirect("admin/jadwal_perawat",$data);
+            redirect("admin/jadwal_perawat", $data);
         }
         // Load view dengan data
     }
@@ -253,20 +298,19 @@ class C_admin extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $data['name']       = $this->session->userdata('name');
-
+        $data['image']    = $this->session->userdata('image');
         $data['username']   = $this->session->userdata('username');
         $data['password']   = $this->session->userdata('password');
         $data['status']     = $this->session->userdata('status');
         $data['role_id']    = $this->session->userdata('role_id');
         $data['position']   = $this->session->userdata('position');
-        $data['image']      = 
         $data['user_logbook'] = $this->M_logbook->all();
         $data['perawat'] = $this->M_list_perawat->all();
 
-//  echo "<pre>";
-//         print_r($data['perawat']);
-//         echo "</pre>";
-//         die();
+        //  echo "<pre>";
+        //         print_r($data['perawat']);
+        //         echo "</pre>";
+        //         die();
         $this->load->view("admin/jadwalperawat", $data);
     }
 
@@ -287,6 +331,7 @@ class C_admin extends CI_Controller
 
     public function tambah_log()
     {
+        $data['image']    = $this->session->userdata('image');
         // Validation succeeded, update the user data
         $data['id_user'] = $this->input->post('idUser');
         $data['tanggal'] = $this->input->post('tanggal');
@@ -306,7 +351,7 @@ class C_admin extends CI_Controller
         $data['role_id'] = $this->session->userdata('role_id');
         $data['name'] = $this->session->userdata('name');
         $data['ruamgam'] = $this->session->userdata('name');
-
+        $data['image']    = $this->session->userdata('image');
         $id['id_user'] = $this->session->userdata('id_user');
 
         // Ambil data pengguna dari database
@@ -347,6 +392,7 @@ class C_admin extends CI_Controller
     public function ganti_pass()
     {
         $data['role_id']       = $this->session->userdata('role_id');
+        $data['image']    = $this->session->userdata('image');
         $data['name']       = $this->session->userdata('name');
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
@@ -397,7 +443,7 @@ class C_admin extends CI_Controller
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-
+        $data['image']    = $this->session->userdata('image');
         //  echo "<pre>";
         // print_r($data);
         // echo "</pre>";
@@ -407,7 +453,7 @@ class C_admin extends CI_Controller
 
     public function logbook_login_cek()
     {
-        
+
         $username    = $this->input->post('username');
         $password    = $this->input->post('password');
 
@@ -430,7 +476,7 @@ class C_admin extends CI_Controller
 
 
 
-           
+
                 if ($data['role_id'] == 2) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");
@@ -441,7 +487,7 @@ class C_admin extends CI_Controller
                     $id['id_user']    = $this->session->userdata('id_user');
                     $data['user'] = $this->db->get_where('t_users', $id)->row_array();
                     $this->session->set_flashdata('error', "Masuk Gagal! anda belum terdaftar atau username/kata sandi anda salah");
-                    redirect('admin/logbook_login',$data);
+                    redirect('admin/logbook_login', $data);
                 }
             } else {
                 $this->session->set_flashdata('error', "Masuk Gagal! anda belum terdaftar atau username/kata sandi anda salah");
@@ -457,6 +503,7 @@ class C_admin extends CI_Controller
         $data['role_id']    = $this->session->userdata('role_id');
         $status['status']    = 1;
         $data['logbook'] = $this->M_log_user->get_where_status($status);
+        $data['image']    = $this->session->userdata('image');
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
@@ -467,6 +514,7 @@ class C_admin extends CI_Controller
     public function logbook_riwayat()
     {
         $data['id_user']    = $this->session->userdata('id_user');
+        $data['image']    = $this->session->userdata('image');
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
