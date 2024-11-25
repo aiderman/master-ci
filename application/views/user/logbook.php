@@ -37,46 +37,41 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
-                            <div>
-                                <a class="btn btn-warning" onclick="openExportWindow()">
-                                    <i class="fa fa-plus">Export</i>
-                                </a>
-                            </div>
+                        <div>
+                            <a class="btn btn-warning" onclick="openExportWindow()">
+                                <i class="fa fa-print"></i> Export
+                            </a>
+                        </div>
+
                             <br>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th></th>
+                                            <th>id log</th>
                                             <th>Nama Ruangan</th>
                                             <th>Tanggal</th>
-                                            <th>PK</th>
-                                            <th>Nama Kewenangan</th>
-                                            <th>No. Rekam Medis</th>
-                                            <th>Tindakan Keperawatan</th>
                                             <th>V Karo</th>
                                             <th>V Kabid</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($logbook as $log) : ?>
+                                        <?php foreach ($perawat as $log) : ?>
                                             <tr>
-                                                <td>
-                                                    <button type="button" class="btn btn-success" onclick="updateLog(<?= $log->id_log ?>)">Input Log</button>
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                    <a href="<?= base_url('user/logbookRekamMedis/' . $log->id_log); ?>" id="profil">
+                                                        <button type="button" class="btn btn-info w-100">
+                                                            <b>LIHAT REKAM MEDIS</b>
+                                                        </button>
+                                                    </a>
+                                                </td>
 
-                                                </td>
-                                                <td><?= $log->ruangan ?></td>
+                                                <td><?= $log->id_log ?></td>
+                                                <td><?= $log->user_ruangan ?></td>
                                                 <td><?= $log->tanggal ?></td>
-                                                <td><?= $log->PK ?></td>
-                                                <td><?= $log->nama_kewenangan ?></td>
-                                                <td><?= $log->no_rekam_medis ?></td>
-                                                <td>
-                                                    <div class="limited-lines"><?= $log->tindakan_keperawatan ?></div>
-                                                    <?php if (strlen($log->tindakan_keperawatan) > 10) : ?>
-                                                        <div class="details-button" onclick="toggleText(this)">Lihat Lebih Banyak</div>
-                                                    <?php endif; ?>
-                                                </td>
+                                               
                                                 <td> <?php if ($log->v_karo == 1) : ?>
                                                         <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
                                                     <?php elseif ($log->v_karo == 0) : ?>

@@ -11,6 +11,7 @@ class C_user extends CI_Controller
         $this->load->model('M_user');
         $this->load->model('M_logbook');
         $this->load->model('M_log_user');
+        $this->load->model('M_list_perawat');
         $this->load->library('session');
 
         $this->load->helper(array('file', 'url', 'form'));
@@ -36,53 +37,52 @@ class C_user extends CI_Controller
 
         $role_id = '1';
         $data['users'] = $this->M_user->get_only_user($role_id);
-
         $this->load->view("user/logbook_login", $data);
     }
 
     public function exportLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
-        $status='1';
+        $status = '1';
         // Ambil data logbook dari model
-        $data['logbook'] = $this->M_log_user->get_where_log_userId($id,$status);
-        
+        $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
+
         // Generate view ke dalam variabel
         $html = $this->load->view('logbook_perawat', $data, true);
-    
+
         // Muat library dompdf jika belum diload
         $this->load->library('dompdf_gen');
-    
+
         // Convert HTML menjadi PDF
         $this->dompdf->load_html($html);
         $this->dompdf->set_paper('A4', 'landscape');  // Jika ingin mengatur ukuran kertas
         $this->dompdf->render();
-    
-        // Unduh PDF dengan nama "logbook_nurse.pdf"
-        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0)); // Attachment 0 untuk menampilkan di browser, 1 untuk download
-    }
-    public function exportHistoryLog()
-    {
-        $id['id_user'] = $this->session->userdata('id_user');
-        $status='3';
-        // Ambil data logbook dari model
-        $data['logbook'] = $this->M_log_user->get_where_log_userId($id,$status);
-        
-        // Generate view ke dalam variabel
-        $html = $this->load->view('logbook_perawat', $data, true);
-    
-        // Muat library dompdf jika belum diload
-        $this->load->library('dompdf_gen');
-    
-        // Convert HTML menjadi PDF
-        $this->dompdf->load_html($html);
-        $this->dompdf->set_paper('A4', 'landscape');  // Jika ingin mengatur ukuran kertas
-        $this->dompdf->render();
-    
+
         // Unduh PDF dengan nama "logbook_nurse.pdf"
         $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0)); // Attachment 0 untuk menampilkan di browser, 1 untuk download
     }
 
+    public function exportHistoryLog()
+    {
+        $id['id_user'] = $this->session->userdata('id_user');
+        $status = '3';
+        // Ambil data logbook dari model
+        $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
+
+        // Generate view ke dalam variabel
+        $html = $this->load->view('logbook_perawat', $data, true);
+
+        // Muat library dompdf jika belum diload
+        $this->load->library('dompdf_gen');
+
+        // Convert HTML menjadi PDF
+        $this->dompdf->load_html($html);
+        $this->dompdf->set_paper('A4', 'landscape');  // Jika ingin mengatur ukuran kertas
+        $this->dompdf->render();
+
+        // Unduh PDF dengan nama "logbook_nurse.pdf"
+        $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0)); // Attachment 0 untuk menampilkan di browser, 1 untuk download
+    }
 
     public function changePhoto()
     {
@@ -160,12 +160,12 @@ class C_user extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
+        $data['image']    = $this->session->userdata('image');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $data['logbook'] = $this->M_logbook->get_where($id);
 
         $this->load->view('user/logbook_login', $data);
     }
-
 
     public function logbook_login_cek()
     {
@@ -207,31 +207,132 @@ class C_user extends CI_Controller
         }
     }
 
-
-
     public function logbook()
     {
 
 
-    
+
         $role_id = '1';
         $data['users'] = $this->M_user->get_only_user($role_id);
         $data['id_user']    = $this->session->userdata('id_user');
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
+        $data['image']    = $this->session->userdata('image');
         $status['status']    = 0;
-        
+
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $data['logbook'] = $this->M_log_user->get_where_user($id, $status);
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-        // die();
+        $data['perawat'] = $this->M_list_perawat->get_by_user_id($id['id_user']);
+
+        //  echo "<pre>";
+        //         print_r($data);
+        //         echo "</pre>";
+        //         die();
         $this->load->view("user/logbook", $data);
     }
 
+    public function logbookRekamMedis($id_log)
+    {
 
+        $role_id = '1';
+        $data['users'] = $this->M_user->get_only_user($role_id);
+        $data['id_user']    = $this->session->userdata('id_user');
+        $data['id_log'] =  $id_log;
+        $data['name']       = $this->session->userdata('name');
+        $data['role_id']    = $this->session->userdata('role_id');
+        $data['status']    = 0;
+        $id_user = $data['id_user'];
+        $data['user'] = $this->db->get_where('t_users',  $data['id_user'])->row_array();
+        $data['logbook'] = $this->M_log_user->get_where_user($data['id_user'], $data['status']);
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisById($id_log, $id_user);
+
+        // echo "<pre>";
+        // print_r($data['seleksiRiwayat']);
+        // echo "</pre>";
+        // die();
+        $this->load->view("user/logbook_rekam_medis", $data);
+    }
+
+    public function updateDataRekamMedis()
+    {
+        // Validation succeeded, update the user dat
+        $datas['PK'] = $this->input->post('PK');
+        $datas['id_log'] = $this->input->post('idLog');
+        $datas['id_rek'] = $this->input->post('idRek');
+        $datas['id_user'] = $this->input->post('idUser');
+        $datas['nama_kewenangan'] = $this->input->post('namaKewenangan');
+        $datas['no_rekam_medis'] = $this->input->post('noRekamMedis');
+        $datas['status'] = $this->input->post('status');
+        $datas['tindakan_keperawatan'] = $this->input->post('tindakan_keperawatan');
+
+        $id_user = $datas['id_user'];
+        $id_log = $datas['id_log'];
+        $id_rek = $datas['id_rek'];
+
+        $data['user'] = $this->db->get_where('t_users',  $datas['id_user'])->row_array();
+        // $data['logbook'] = $this->M_log_user->get_where_user($data['id_user'], $data['status']);
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisById($id_log, $id_user);
+
+        $this->M_logbook->UpdateRekamMedis($id_rek, $datas);
+        // echo "<pre>";
+        // print_r($result);
+        // echo "</pre>";
+        // die();
+
+        // Redirect to the profil route
+        redirect('user/logbookRekamMedis/' . $id_log);
+    }
+    public function hapusDataRekamMedis($id_rek)
+    {
+        $result = $this->M_logbook->findOneRekamMedis($id_rek);
+
+
+        $id_log = $result['id_log'];
+        $id_user = $result['id_user'];
+        $id_rek = $result['id_rek'];
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisById($id_log, $id_user);
+        $deleteResult = $this->M_logbook->DeleteRekamMedis($id_rek);
+        // Cek apakah penghapusan berhasil
+        if ($deleteResult) {
+            // Jika berhasil, beri pesan sukses
+            $this->session->set_flashdata('success', 'Data rekam medis berhasil dihapus.');
+        } else {
+            // Jika gagal, beri pesan error
+            $this->session->set_flashdata('error', 'Terjadi kesalahan saat menghapus data.');
+        }
+
+        // Redirect ke halaman logbook rekam medis berdasarkan ID log
+        redirect('user/logbookRekamMedis/' . $id_log);
+    }
+
+    public function sendTableData($id_log)
+    {
+        $data = $this->M_logbook->UpdateStatusRekamMedis($id_log);
+        redirect('user/logbookRekamMedis/' . $id_log);
+    }
+
+    public function tambahRekamMedis()
+    {
+        // Ambil data dari form input dan set default values
+        $data = [
+            'id_log' => $this->input->post('idLog'),
+            'id_user' => $this->input->post('idUser'),
+            'PK' => $this->input->post('PK'),
+            'nama_kewenangan' => $this->input->post('namaKewenangan'),
+            'no_rekam_medis' => $this->input->post('noRekamMedis'),
+            'tindakan_keperawatan' => $this->input->post('tindakan_keperawatan'),
+            'created' => date('Y-m-d H:i:s'), // Get current date and time,
+            'status' => '0' // Status awal 0
+        ];
+
+        // Panggil model untuk menambahkan rekam medis dan dapatkan hasilnya
+        $result = $this->M_logbook->tambahRekamMedis($data);
+        $this->session->set_flashdata($result['status'] ? 'success' : 'error', $result['message']);
+
+        // Redirect ke halaman logbook rekam medis berdasarkan ID log
+        redirect('user/logbookRekamMedis/' . $data['id_log']);
+    }
 
     public function logbook_riwayat()
     {
@@ -241,9 +342,9 @@ class C_user extends CI_Controller
         $data['role_id']    = $this->session->userdata('role_id');
 
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-        $status='3';
+        $status = '3';
         // Ambil data logbook dari model
-        $data['logbook'] = $this->M_log_user->get_where_log_userId($id,$status);
+        $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
 
         // echo "<pre>";
         // print_r($data['logbook']);
@@ -252,7 +353,6 @@ class C_user extends CI_Controller
 
         $this->load->view("user/logbook_riwayat", $data);
     }
-
 
     public function edit()
     {
@@ -275,7 +375,6 @@ class C_user extends CI_Controller
         redirect('user/profil');
     }
 
-
     public function profil()
     {
         $data['name']       = $this->session->userdata('name');
@@ -290,7 +389,6 @@ class C_user extends CI_Controller
         $this->load->view("user/profil", $data);
     }
 
-
     public function get($ids)
     {
         $id['id_user'] = $ids;
@@ -298,11 +396,17 @@ class C_user extends CI_Controller
         echo json_encode($data);
     }
 
-
     public function get_log($ids)
     {
         $id['id_log'] = $ids;
         $data = $this->M_logbook->get($id);
+
+
+        echo json_encode($data);
+    }
+    public function getRekamMedis($id)
+    {
+        $data = $this->M_logbook->getRekamMedisbyid($id);
         echo json_encode($data);
     }
 
@@ -371,7 +475,6 @@ class C_user extends CI_Controller
     }
 
 
-
     public function update_data_log()
     {
 
@@ -382,7 +485,7 @@ class C_user extends CI_Controller
         $data['nama_kewenangan'] = $this->input->post('namaKewenangan');
         $data['no_rekam_medis'] = $this->input->post('noRekamMedis');
         $data['tindakan_keperawatan'] = $this->input->post('tindakan_keperawatan');
-        $data['status'] = '1';
+        $data['status'] = '0';
         $data['created'] = date('Y-m-d H:i:s'); // Get current date and time in the format Y-m-d H:i:s
         $this->M_logbook->edit($id_log, $data);
 

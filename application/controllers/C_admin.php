@@ -230,17 +230,11 @@ class C_admin extends CI_Controller
         $data['id_user'] = $this->input->post('name');
         $data['tanggal'] = $this->input->post('tanggal');
         $data['piket'] = $this->input->post('piket');
-        $data['PK'] = "belum di input";
-        $data['nama_kewenangan'] = "belum di input";
-        $data['no_rekam_medis'] = "belum di input";
-        $data['	tindakan_keperawatan'] = "belum di input";
-        $data['nilai'] = "belum di input";
-        $data['sifat'] = "belum di input";
         $datapas = $this->M_logbook->tambah($data);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         // echo "<pre>";
-        //         print_r($datapas);
+        //         print_r($data);
         //         echo "</pre>";
         //         die();
         if ($datapas==true) {
@@ -266,11 +260,11 @@ class C_admin extends CI_Controller
         $data['role_id']    = $this->session->userdata('role_id');
         $data['position']   = $this->session->userdata('position');
         $data['image']      = 
-        $data['user_logbook'] = $this->M_log_user->all();
+        $data['user_logbook'] = $this->M_logbook->all();
         $data['perawat'] = $this->M_list_perawat->all();
 
 //  echo "<pre>";
-//         print_r($data);
+//         print_r($data['perawat']);
 //         echo "</pre>";
 //         die();
         $this->load->view("admin/jadwalperawat", $data);

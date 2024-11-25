@@ -32,14 +32,14 @@ class C_login extends CI_Controller
     public function logout()
     {
         // Clear cache
-    $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-    $this->output->set_header('Cache-Control: post-check=0, pre-check=0', false);
-    $this->output->set_header('Pragma: no-cache');
+        $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        $this->output->set_header('Cache-Control: post-check=0, pre-check=0', false);
+        $this->output->set_header('Pragma: no-cache');
 
-    // Unset session data
-    $this->session->unset_userdata('username');
-    $this->session->set_flashdata('success', "Logged out!");
-    $this->session->sess_destroy();
+        // Unset session data
+        $this->session->unset_userdata('username');
+        $this->session->set_flashdata('success', "Logged out!");
+        $this->session->sess_destroy();
         redirect('login');
     }
 
@@ -60,8 +60,12 @@ class C_login extends CI_Controller
                 $data['position']   = $user['position'];
                 $data['image']      = $user['image'];
                 $data['ruangan']        = $user['ruangan'];
+                $data['image']      = $user['image'];
 
-
+                // echo "<pre>";
+                // print_r($data);
+                // echo "</pre>";
+                // die();
                 if ($data['role_id'] == 1) {
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('success', "Selamat Datang!");

@@ -41,7 +41,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-    <?php foreach ($user_logbook as $row) : ?>
+    <?php foreach ($perawat as $row) : ?>
         <?php $nullOb="Belum di input"?>
         <tr>
             <td><?= !empty($row->tanggal) ? date('d-m-Y', strtotime($row->tanggal)) : $nullOb ?></td>
@@ -94,7 +94,7 @@
                         <div class="form-group">
                             <label for="name">Pilih Perawat </label>
                             <select name="name" id="name" class="btn btn-danger dropdown-toggle dropdown-toggle-split">
-                                <?php foreach ($perawat as $p) : ?>
+                                <?php foreach ($daftarPerawat as $p) : ?>
                                     <option value=<?= $p->id_user ?>><?= $p->name ?></option>
                                 <?php endforeach; ?>
                             </select>

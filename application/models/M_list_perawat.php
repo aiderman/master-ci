@@ -1,7 +1,7 @@
 <?php
 class M_list_perawat extends CI_Model
 {
-    private $view = "v_list_perawat";
+    private $view = "v_logbook";
 
     // Fetch all records from the view
     public function all()
@@ -44,4 +44,22 @@ class M_list_perawat extends CI_Model
         $this->db->where('position', $position);
         return $this->db->get($this->view)->result();
     }
+    function daftarPerawat($id,$status)
+    {
+        $this->db->where($id);
+        $this->db->where('status',$status);
+        return $this->db->get('v_log_users')->result();
+    }
+
+    function RiwayatByIdLog($id_log, $id_user)
+    {
+        // $id_log=1;
+        // $id_user=23;
+        // Tulis query SQL langsung
+        $sql = "SELECT * FROM {$this->view} WHERE id_log = $id_log AND id_user = $id_user";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
+    
 }
