@@ -37,7 +37,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
-                        <div>
+                            <div>
                                 <a class="btn btn-warning" onclick="openExportWindow()">
                                     <i class="fa fa-plus">Export</i>
                                 </a>
@@ -46,15 +46,11 @@
                                 <table class="table table-bordered table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
+                                            <th>Lihat Rekam Medis</th>
                                             <th>Nama perawat</th>
                                             <th>Nama Ruangan</th>
                                             <th>Tanggal</th>
-
                                             <th>PK</th>
-                                            <th>Nama Kewenangan</th>
-                                            <th>No. Rekam Medis</th>
-                                            <th>Tindakan Keperawatan</th>
-                                            <th>nilai</th>
                                             <th>Tinjau</th>
 
                                         </tr>
@@ -67,19 +63,18 @@
                                             $terlambat = $createdTimestamp > $tanggalTimestamp;
                                             ?>
                                             <tr <?php if ($terlambat) echo 'class="terlambat"'; ?>>
-                                                <td><?= $log->name ?></td>
-                                                <td><?= $log->ruangan ?></td>
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    <a href="<?= base_url('admin/logbookRekamMedis/' . $log->id_log); ?>" id="profil">
+                                                        <button type="button" class="btn btn-info w-100">
+                                                            <b>LIHAT REKAM MEDIS</b>
+                                                        </button>
+                                                    </a>
+                                                </td>
+
+                                                <td><?= $log->nama_perawat ?></td>
+                                                <td><?= $log->user_ruangan ?></td>
                                                 <td><?= $log->tanggal ?></td>
                                                 <td><?= $log->PK ?></td>
-                                                <td><?= $log->nama_kewenangan ?></td>
-                                                <td><?= $log->no_rekam_medis ?></td>
-                                                <td>
-                                                    <div class="limited-lines"><?= $log->tindakan_keperawatan ?></div>
-                                                    <?php if (strlen($log->tindakan_keperawatan) > 10) : ?>
-                                                        <div class="details-button" onclick="toggleText(this)">Lihat Lebih Banyak</div>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?= $log->nilai ?></td>
                                                 <td>
                                                     <?php if ($log->v_kabid == 1) : ?>
                                                         <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
@@ -151,6 +146,7 @@
             // Membuka halaman baru untuk export
             window.open(url, '_blank');
         }
+
         function openExportHistoryWindow() {
             // Buat URL ke controller exportLog di server
             const url = '<?= base_url('admin/exportHistoryLog') ?>';

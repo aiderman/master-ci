@@ -1,7 +1,7 @@
 <?php
 class M_log_user extends CI_Model
 {
-    private $table = "v_log_users";
+    private $table = "v_logbook_rekam_medis";
     public function all()
     {
         $this->db->select('*');
@@ -21,19 +21,25 @@ class M_log_user extends CI_Model
     {
         $this->db->where($id);
         $this->db->where($status);
-        return $this->db->get($this->table)->result();
+        return $this->db->get('v_logbook')->result();
     }
-    function get_where_log_userId($id,$status)
+    function get_where_log_userId($id, $status)
     {
         $this->db->where($id);
-        $this->db->where('status',$status);
-        return $this->db->get('v_log_users')->result();
+        $this->db->where('status', $status);
+        return $this->db->get('v_logbook')->result();
     }
 
     function get_where_status($status)
     {
+
         $this->db->where($status);
-        return $this->db->get($this->table)->result();
+        return $this->db->get('v_logbook')->result();
+    }
+    function get_where_statusAdmin($status)
+    {
+        $this->db->where($status);
+        return $this->db->get('v_logbook')->result();
     }
     function get_all_where($id)
     {

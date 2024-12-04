@@ -37,11 +37,11 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
-                        <div>
-                            <a class="btn btn-warning" onclick="openExportWindow()">
-                                <i class="fa fa-print"></i> Export
-                            </a>
-                        </div>
+                            <div>
+                                <a class="btn btn-warning" onclick="openExportWindow()">
+                                    <i class="fa fa-print"></i> Export
+                                </a>
+                            </div>
 
                             <br>
                             <div class="table-responsive">
@@ -58,9 +58,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($perawat as $log) : ?>
+                                        <?php foreach ($logbook as $log) : ?>
                                             <tr>
-                                            <td style="text-align: center; vertical-align: middle;">
+                                                <td style="text-align: center; vertical-align: middle;">
                                                     <a href="<?= base_url('user/logbookRekamMedis/' . $log->id_log); ?>" id="profil">
                                                         <button type="button" class="btn btn-info w-100">
                                                             <b>LIHAT REKAM MEDIS</b>
@@ -69,9 +69,9 @@
                                                 </td>
 
                                                 <td><?= $log->id_log ?></td>
-                                                <td><?= $log->user_ruangan ?></td>
+                                                <td><?= $log->ruangan_logbook ?></td>
                                                 <td><?= $log->tanggal ?></td>
-                                               
+
                                                 <td> <?php if ($log->v_karo == 1) : ?>
                                                         <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>
                                                     <?php elseif ($log->v_karo == 0) : ?>
@@ -160,6 +160,7 @@
             // Membuka halaman baru untuk export
             window.open(url, '_blank');
         }
+
         function openExportHistoryWindow() {
             // Buat URL ke controller exportLog di server
             const url = '<?= base_url('user/exportHistoryLog') ?>';

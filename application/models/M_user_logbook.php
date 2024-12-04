@@ -1,7 +1,7 @@
 <?php
 class M_user_logbook extends CI_Model
 {
-    private $view = "v_user_logbook";
+    private $view = "v_logbook_rekam_medis";
 
     // Fetch all records from the view
     public function all()
@@ -46,7 +46,7 @@ class M_user_logbook extends CI_Model
     }
     function get_where_status($status)
     {
-       $this->db->where('status', $status);
-       return $this->db->get($this->view)->result();
+        $this->db->where('status', $status);
+        return $this->db->get($this->view)->result();
     }
 }

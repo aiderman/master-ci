@@ -27,11 +27,11 @@
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">
-                  
+
                         <div class="body">
-                        <a class="btn btn-warning" onclick="openExportHistoryWindow()">
-                                    <i class="fa fa-plus">Export</i>
-                                </a>
+                            <a class="btn btn-warning" onclick="openExportHistoryWindow()">
+                                <i class="fa fa-plus">Export</i>
+                            </a>
                             <div class="table-responsive">
                                 <table class="table table-bordered  table-hover js-basic-example dataTable">
                                     <thead>
@@ -58,8 +58,8 @@
                                             $terlambat = $createdTimestamp > $tanggalTimestamp;
                                             ?>
                                             <tr <?php if ($terlambat) echo 'class="terlambat"'; ?>>
-                                                <td><?= $log->name ?></td>
-                                                <td><?= $log->ruangan ?></td>
+                                                <td><?= $log->nama_perawat ?></td>
+                                                <td><?= $log->ruangan_logbook ?></td>
                                                 <td><?= $log->tanggal ?></td>
 
                                                 <td><?= $log->PK ?></td>
@@ -99,6 +99,7 @@
             // Membuka halaman baru untuk export
             window.open(url, '_blank');
         }
+
         function openExportHistoryWindow() {
             // Buat URL ke controller exportLog di server
             const url = '<?= base_url('admin/exportHistoryLog') ?>';

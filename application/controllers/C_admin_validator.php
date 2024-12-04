@@ -33,9 +33,15 @@ class C_admin_validator extends CI_Controller
         $data['image']      = $this->session->userdata('image');
         $data['logbook'] = $this->M_log_user->all();
         $role_id = '3';
+
+
         $data['users'] = $this->M_user->get_only_user($role_id);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
         $this->load->view("admin_validator/logbook_login", $data);
     }
 
@@ -73,11 +79,12 @@ class C_admin_validator extends CI_Controller
         }
     }
 
+
     public function exportLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
-        $status = '1';
-        $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
+        $status = '2';
+        $data['logbook'] = $this->M_logbook->rekamMedisByIdAdminIdOne();
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
@@ -86,11 +93,16 @@ class C_admin_validator extends CI_Controller
         $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0));
     }
 
+
     public function exportHistoryLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
         $status = '3';
         $data['logbook'] = $this->M_user_logbook->get_where_status($status);
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
@@ -268,9 +280,14 @@ class C_admin_validator extends CI_Controller
         $data['role_id']    = $this->session->userdata('role_id');
         $status['status']    = 2;
         $data['image']    = $this->session->userdata('image');
-        $data['logbook'] = $this->M_log_user->get_where_status($status);
+        $data['logbook'] = $this->M_log_user->get_where_statusAdmin($status);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
+
         $this->load->view("admin_validator/logbook", $data);
     }
     public function logbook_riwayat()
@@ -283,6 +300,11 @@ class C_admin_validator extends CI_Controller
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         $status['status']    = "3";
         $data['logbook'] = $this->M_log_user->get_where_status($status);
+        $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
         $this->load->view("admin_validator/logbook_riwayat", $data);
     }
     public function update_data_log()
@@ -292,5 +314,29 @@ class C_admin_validator extends CI_Controller
         $data['status'] = '3';
         $this->M_logbook->edit($id_log, $data);
         redirect('admin_validator/logbook');
+    }
+
+
+    public function logbookRekamMedis($id_log)
+    {
+
+        $role_id = '1';
+        $data['image']    = $this->session->userdata('image');
+        $data['users'] = $this->M_user->get_only_user($role_id);
+        $data['id_user']    = $this->session->userdata('id_user');
+        $data['id_log'] =  $id_log;
+        $data['name']       = $this->session->userdata('name');
+        $data['role_id']    = $this->session->userdata('role_id');
+        $data['status']    = 2;
+        $id_user = $data['id_user'];
+        $data['user'] = $this->db->get_where('t_users',  $data['id_user'])->row_array();
+        $data['logbook'] = $this->M_log_user->get_where_user($data['id_user'], $data['status']);
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisByIdAdmin($id_log);
+
+        // echo "<pre>";
+        // print_r($data['seleksiRiwayat']);
+        // echo "</pre>";
+        // die();
+        $this->load->view("admin_validator/logbook_rekam_medis", $data);
     }
 }

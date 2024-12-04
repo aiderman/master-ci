@@ -38,9 +38,13 @@ class C_admin extends CI_Controller
         $data['logbook'] = $this->M_log_user->all();
 
         $role_id = '2';
+
+
         $data['users'] = $this->M_user->get_only_user($role_id);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+
+
         $this->load->view("admin/logbook_login", $data);
     }
 
@@ -92,13 +96,15 @@ class C_admin extends CI_Controller
         }
     }
 
-
-
     public function exportLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
         $status = '2';
-        $data['logbook'] = $this->M_user_logbook->get_where_status($status);
+        $data['logbook'] = $this->M_logbook->rekamMedisByIdAdminIdOne();
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
@@ -106,13 +112,18 @@ class C_admin extends CI_Controller
         $this->dompdf->render();
         $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0));
     }
-
 
     public function exportHistoryLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
         $status = '3';
         $data['logbook'] = $this->M_user_logbook->get_where_status($status);
+
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
+
         $html = $this->load->view('logbook_perawat', $data, true);
         $this->load->library('dompdf_gen');
         $this->dompdf->load_html($html);
@@ -120,7 +131,6 @@ class C_admin extends CI_Controller
         $this->dompdf->render();
         $this->dompdf->stream("logbook_nurse.pdf", array("Attachment" => 0));
     }
-
 
     // Fungsi untuk memperbarui data pengguna
     public function updateUser()
@@ -190,39 +200,6 @@ class C_admin extends CI_Controller
         $this->load->view("admin/dataperawat", $data);
     }
 
-
-    // public function tambahUser()
-    // {
-    //     $data['name'] = $this->input->post('nama');
-    //     $data['username'] = $this->input->post('username');
-    //     $data['password'] = $this->input->post('username');
-    //     $data['position'] = $this->input->post('position');
-    //     $data['nrp'] = $this->input->post('NRP');
-    //     $data['ruangan'] = $this->input->post('ruangan');
-    //     $data['pendidikan'] = $this->input->post('pendidikan');
-    //     $data['str_berlaku'] = $this->input->post('str_berlaku');
-    //     $data['str_selesai'] = $this->input->post('str_selesai');
-    //     $data['image'] = "default.jpg";
-    //     $data['role_id'] = '1';
-    //     $data['Pengalaman_id'] = '1';
-    //     $id['id_user']    = $this->session->userdata('id_user');
-    //     $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-    //     // Panggil model untuk menambahkan data
-    //     $datapas = $this->M_user->tambah($data);
-    //              echo "<pre>";
-    //     print_r($data);
-    //     echo "</pre>";
-    //     die();
-
-    //     if (!$datapas) {
-    //         $this->session->set_flashdata('error', "Gagal menambahkan data!");
-    //         redirect("admin/data_perawat", $data);
-    //     } else {
-    //         $this->session->set_flashdata('add', "Data berhasil ditambahkan!");
-    //         redirect("admin/data_perawat", $data);
-    //     }
-    // }
-
     public function tambahUser()
     {
         $datas = [
@@ -239,22 +216,9 @@ class C_admin extends CI_Controller
             'Pengalaman_id' => '1',
         ];
 
-        // Mengambil id_user dari session untuk digunakan dalam query
         $id_user = $this->session->userdata('id_user');
-
-        // Memasukkan data pengguna ke dalam database
         $datapas = $this->M_user->tambah($datas);
-
-        // Mendapatkan data user menggunakan id_user
         $data['user'] = $this->M_user->get($id_user);
-
-        // Debugging untuk melihat data yang dikirim
-        // echo "<pre>";
-        // print_r($datas);
-        // echo "</pre>";
-        // die();
-
-        // Menampilkan pesan flash sesuai dengan hasil
         if (!$datapas) {
             $this->session->set_flashdata('error', "Gagal menambahkan data!");
         } else {
@@ -265,23 +229,19 @@ class C_admin extends CI_Controller
         redirect("admin/data_perawat", $data);
     }
 
-
-
     public function tambahJadwalPerawat()
     {
-
-
-
         $data['id_user'] = $this->input->post('name');
         $data['tanggal'] = $this->input->post('tanggal');
         $data['piket'] = $this->input->post('piket');
+        $data['ruangan'] = $this->input->post('ruangan');
         $datapas = $this->M_logbook->tambah($data);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         // echo "<pre>";
-        //         print_r($data);
-        //         echo "</pre>";
-        //         die();
+        // print_r($datapas);
+        // echo "</pre>";
+        // die();
         if ($datapas == true) {
             $this->session->set_flashdata('add', "sukses");
             redirect('admin/jadwal_perawat', $data); // Replace 'success_page' with the actual URL
@@ -306,11 +266,12 @@ class C_admin extends CI_Controller
         $data['position']   = $this->session->userdata('position');
         $data['user_logbook'] = $this->M_logbook->all();
         $data['perawat'] = $this->M_list_perawat->all();
+        $data['daftarPerawat'] = $this->M_list_perawat->listPerawat();
 
-        //  echo "<pre>";
-        //         print_r($data['perawat']);
-        //         echo "</pre>";
-        //         die();
+        // echo "<pre>";
+        // print_r($data['perawat']);
+        // echo "</pre>";
+        // die();
         $this->load->view("admin/jadwalperawat", $data);
     }
 
@@ -341,10 +302,6 @@ class C_admin extends CI_Controller
         $this->session->set_flashdata('success', "Data Berhasil Ditambahkan!");
         redirect('admin/halaman_utama');
     }
-
-
-
-
 
     public function profil()
     {
@@ -378,6 +335,7 @@ class C_admin extends CI_Controller
 
     public function get_log($ids)
     {
+
         $id['id_log'] = $ids;
         $data = $this->M_log_user->get($id);
         echo json_encode($data);
@@ -502,8 +460,8 @@ class C_admin extends CI_Controller
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
         $status['status']    = 1;
-        $data['logbook'] = $this->M_log_user->get_where_status($status);
         $data['image']    = $this->session->userdata('image');
+        $data['logbook'] = $this->M_logbook->get_where_status($status);
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
@@ -511,6 +469,117 @@ class C_admin extends CI_Controller
         $this->load->view("admin/logbook", $data);
     }
 
+
+    public function logbookRekamMedis($id_log)
+    {
+
+        $role_id = '1';
+        $data['image']    = $this->session->userdata('image');
+        $data['users'] = $this->M_user->get_only_user($role_id);
+        $data['id_user']    = $this->session->userdata('id_user');
+        $data['id_log'] =  $id_log;
+        $data['name']       = $this->session->userdata('name');
+        $data['role_id']    = $this->session->userdata('role_id');
+        $data['status']    = 0;
+        $id_user = $data['id_user'];
+        $data['user'] = $this->db->get_where('t_users',  $data['id_user'])->row_array();
+        $data['logbook'] = $this->M_log_user->get_where_user($data['id_user'], $data['status']);
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisByIdAdmin($id_log);
+
+        // echo "<pre>";
+        // print_r($data['seleksiRiwayat']);
+        // echo "</pre>";
+        // die();
+        $this->load->view("admin/logbook_rekam_medis", $data);
+    }
+
+    public function updateDataRekamMedis()
+    {
+        // Validation succeeded, update the user dat
+        $datas['PK'] = $this->input->post('PK');
+        $datas['id_log'] = $this->input->post('idLog');
+        $datas['id_rek'] = $this->input->post('idRek');
+        $datas['id_user'] = $this->input->post('idUser');
+        $datas['nama_kewenangan'] = $this->input->post('namaKewenangan');
+        $datas['no_rekam_medis'] = $this->input->post('noRekamMedis');
+        $datas['status'] = $this->input->post('status');
+        $datas['tindakan_keperawatan'] = $this->input->post('tindakan_keperawatan');
+
+        $id_user = $datas['id_user'];
+        $id_log = $datas['id_log'];
+        $id_rek = $datas['id_rek'];
+
+        $data['user'] = $this->db->get_where('t_users',  $datas['id_user'])->row_array();
+        // $data['logbook'] = $this->M_log_user->get_where_user($data['id_user'], $data['status']);
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisById($id_log, $id_user);
+
+        $this->M_logbook->UpdateRekamMedis($id_rek, $datas);
+        // echo "<pre>";
+        // print_r($result);
+        // echo "</pre>";
+        // die();
+
+        // Redirect to the profil route
+        redirect('admin/logbookRekamMedis/' . $id_log);
+    }
+
+    public function hapusDataRekamMedis($id_rek)
+    {
+        $result = $this->M_logbook->findOneRekamMedis($id_rek);
+
+
+        $id_log = $result['id_log'];
+        $id_user = $result['id_user'];
+        $id_rek = $result['id_rek'];
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisById($id_log, $id_user);
+        $deleteResult = $this->M_logbook->DeleteRekamMedis($id_rek);
+        // Cek apakah penghapusan berhasil
+        if ($deleteResult) {
+            // Jika berhasil, beri pesan sukses
+            $this->session->set_flashdata('success', 'Data rekam medis berhasil dihapus.');
+        } else {
+            // Jika gagal, beri pesan error
+            $this->session->set_flashdata('error', 'Terjadi kesalahan saat menghapus data.');
+        }
+
+        // Redirect ke halaman logbook rekam medis berdasarkan ID log
+        redirect('admin/logbookRekamMedis/' . $id_log);
+    }
+
+    public function sendTableData($id_log)
+    {
+        $this->M_logbook->UpdateStatusRekamMedisAdmin($id_log);
+        $this->M_logbook->UpdateStatusLogbook($id_log);
+        redirect('admin/logbookRekamMedis/' . $id_log);
+    }
+
+    public function tambahRekamMedis()
+    {
+        // Ambil data dari form input dan set default values
+        $data = [
+            'id_log' => $this->input->post('idLog'),
+            'id_user' => $this->input->post('idUser'),
+            'PK' => $this->input->post('PK'),
+            'nama_kewenangan' => $this->input->post('namaKewenangan'),
+            'no_rekam_medis' => $this->input->post('noRekamMedis'),
+            'tindakan_keperawatan' => $this->input->post('tindakan_keperawatan'),
+            'created' => date('Y-m-d H:i:s'), // Get current date and time,
+            'status' => '0' // Status awal 0
+        ];
+
+        // Panggil model untuk menambahkan rekam medis dan dapatkan hasilnya
+        $result = $this->M_logbook->tambahRekamMedis($data);
+        $this->session->set_flashdata($result['status'] ? 'success' : 'error', $result['message']);
+
+        // Redirect ke halaman logbook rekam medis berdasarkan ID log
+        redirect('admin/logbookRekamMedis/' . $data['id_log']);
+    }
+
+    public function getRekamMedis($id)
+    {
+        $data = $this->M_logbook->getRekamMedisbyid($id);
+        echo json_encode($data);
+    }
     public function logbook_riwayat()
     {
         $data['id_user']    = $this->session->userdata('id_user');
@@ -518,10 +587,14 @@ class C_admin extends CI_Controller
         $id['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
-        $status['status']    = '3';
-        $data['logbook'] = $this->M_log_user->get_where_status($status);
+        $status = '3';
+        $data['logbook'] = $this->M_logbook->get_historyLogbookAdmin($status);
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
 
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
 
 
         $this->load->view("admin/logbook_riwayat", $data);
@@ -532,7 +605,9 @@ class C_admin extends CI_Controller
         $id_log['id_log'] = $this->input->post('idLog');
         $data['nilai'] = $this->input->post('nilai');
         $data['status'] = '2';
-        $this->M_logbook->edit($id_log, $data);
+        $return = $this->M_logbook->edit($id_log, $data);
+        // print_r($return);
+        // die();
         redirect('admin/logbook');
     }
 }

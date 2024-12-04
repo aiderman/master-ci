@@ -32,6 +32,31 @@ class M_logbook extends CI_Model
 
         return $this->db->get_where('t_rekam_medis', ['id_log' => $id])->result();
     }
+
+    public function UpdateStatusRekamMedisAdmin($id)
+    {
+        $this->db->set('status', 2);
+        $this->db->where('id_log', $id);
+        $this->db->update('t_rekam_medis');
+
+        return $this->db->get_where('t_rekam_medis', ['id_log' => $id])->result();
+    }
+    public function UpdateStatusRekamMedisadminValidator($id)
+    {
+        $this->db->set('status', 2);
+        $this->db->where('id_log', $id);
+        $this->db->update('t_rekam_medis');
+
+        return $this->db->get_where('t_rekam_medis', ['id_log' => $id])->result();
+    }
+    public function UpdateStatusLogbook($id)
+    {
+        $this->db->set('status', 1);
+        $this->db->where('id_log', $id);
+        $this->db->update('t_logbook');
+
+        return $this->db->get_where('t_logbook', ['id_log' => $id])->result();
+    }
     public function UpdateRekamMedis($id, $data)
     {
         $this->db->where('id_rek', $id);
@@ -62,6 +87,22 @@ class M_logbook extends CI_Model
         $this->db->where('status', '0');
         return $this->db->get()->result();
     }
+    public function rekamMedisByIdAdmin($id_log)
+    {
+        $this->db->select('*');
+        $this->db->from('v_logbook_rekam_medis');
+        $this->db->where('id_log', $id_log);
+        $this->db->where('status', '1');
+        return $this->db->get()->result();
+    }
+
+    public function rekamMedisByIdAdminIdOne()
+    {
+        $this->db->select('*');
+        $this->db->from('v_logbook_rekam_medis');
+        $this->db->where('status', '1');
+        return $this->db->get()->result();
+    }
 
 
     public function all()
@@ -85,6 +126,27 @@ class M_logbook extends CI_Model
         $this->db->where($id);
         $this->db->where('status', $status);
         return $this->db->get($this->table)->result();
+    }
+    function get_where_status($status)
+    {
+        $this->db->from('v_logbook');
+        $this->db->where($status);
+        return $this->db->get()->result();
+    }
+
+
+    function get_historyLogbookUser($id, $status)
+    {
+        $this->db->from('v_logbook_rekam_medis');
+        $this->db->where('id_user', $id);
+        $this->db->where('status', $status);
+        return $this->db->get()->result();
+    }
+    function get_historyLogbookAdmin($status)
+    {
+        $this->db->from('v_logbook_rekam_medis');
+        $this->db->where('status', $status);
+        return $this->db->get()->result();
     }
     function get_where_join($id)
     {
@@ -114,6 +176,34 @@ class M_logbook extends CI_Model
     {
         $this->db->where($id_log);
         $this->db->update($this->table, $data);
+    }
+
+    function updateStatusRiwayat($id_log, $data)
+    {
+        // Pastikan id_log diberikan
+        if (!$id_log) {
+            return [
+                'success' => false,
+                'message' => 'ID log tidak ditemukan.'
+            ];
+        }
+
+        // Update semua baris yang memiliki id_log yang sama
+        $this->db->where('id_log', $id_log);
+        $this->db->update('t_rekam_medis', $data); // Ganti 'your_table_name' dengan nama tabel Anda
+
+        // Periksa apakah ada baris yang diperbarui
+        if ($this->db->affected_rows() > 0) {
+            return [
+                'success' => true,
+                'message' => 'Status berhasil diperbarui untuk semua baris dengan ID log yang sama.'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Tidak ada data yang diperbarui atau ID log tidak ditemukan.'
+            ];
+        }
     }
 
     function tambah($data)

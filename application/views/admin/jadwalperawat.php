@@ -32,7 +32,7 @@
                                     <!-- Table Header -->
                                     <thead>
                                         <tr>
-
+                                            <th>No</th> <!-- Kolom untuk nomor urut -->
                                             <th>tanggal</th>
                                             <th>piket</th>
                                             <th>Nama Perawat</th>
@@ -41,19 +41,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($perawat as $row) : ?>
+                                        <?php
+                                        $no = 1; // Inisialisasi nomor urut
+                                        foreach ($perawat as $row) :
+                                        ?>
                                             <?php $nullOb = "Belum di input" ?>
                                             <tr>
+                                                <td><?= $no++ ?></td> <!-- Menampilkan nomor urut -->
                                                 <td><?= !empty($row->tanggal) ? date('d-m-Y', strtotime($row->tanggal)) : $nullOb ?></td>
                                                 <td><?= !empty($row->piket) ? $row->piket : $nullOb ?></td>
-                                                <td><?= !empty($row->nama_perawat) ? $row->nama_perawat : $nullOb ?></td>
-                                                <td><?= !empty($row->ruangan) ? $row->ruangan : $nullOb ?></td>
+                                                <td><?= $row->nama_perawat ?></td>
+                                                <td><?= $row->ruangan ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
-
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -146,8 +150,8 @@
                             <input type="text" class="form-control" id="editName" name="name">
                         </div>
                         <div class="form-group">
-                            <label for="editRuangan">Ruangan</label>
-                            <input type="text" class="form-control" id="editRuangan" name="ruangan">
+                            <label for="ruangan">Ruangan</label>
+                            <input type="text" class="form-control" id="ruangan" name="ruangan">
                         </div>
                     </div>
                     <div class="modal-footer">

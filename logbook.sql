@@ -1,0 +1,1 @@
+SELECT * FROM v_logbook_rekam_medis WHERE STATUS='1'

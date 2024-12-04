@@ -7,7 +7,16 @@ class M_list_perawat extends CI_Model
     public function all()
     {
         $this->db->select('*');
-        return $this->db->get($this->view)->result();
+        $this->db->from('v_jadwal_perawat');
+        // $this->db->where('role_id', '1');
+        return $this->db->get()->result();
+    }
+    public function listPerawat()
+    {
+        $this->db->select('*');
+        $this->db->from('t_users');
+        $this->db->where('role_id', '1');
+        return $this->db->get()->result();
     }
 
     // Fetch a single record by log ID
@@ -44,10 +53,10 @@ class M_list_perawat extends CI_Model
         $this->db->where('position', $position);
         return $this->db->get($this->view)->result();
     }
-    function daftarPerawat($id,$status)
+    function daftarPerawat($id, $status)
     {
         $this->db->where($id);
-        $this->db->where('status',$status);
+        $this->db->where('status', $status);
         return $this->db->get('v_log_users')->result();
     }
 
@@ -60,6 +69,4 @@ class M_list_perawat extends CI_Model
         $query = $this->db->query($sql);
         return $query->result();
     }
-    
-    
 }

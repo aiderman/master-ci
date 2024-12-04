@@ -46,7 +46,7 @@ class C_user extends CI_Controller
     public function exportLog()
     {
         $id['id_user'] = $this->session->userdata('id_user');
-        $status = '1';
+        $status = '0';
         // Ambil data logbook dari model
         $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
 
@@ -311,7 +311,8 @@ class C_user extends CI_Controller
 
     public function sendTableData($id_log)
     {
-        $data = $this->M_logbook->UpdateStatusRekamMedis($id_log);
+        $this->M_logbook->UpdateStatusRekamMedis($id_log);
+        $this->M_logbook->UpdateStatusLogbook($id_log);
         redirect('user/logbookRekamMedis/' . $id_log);
     }
 
@@ -337,6 +338,11 @@ class C_user extends CI_Controller
         redirect('user/logbookRekamMedis/' . $data['id_log']);
     }
 
+    public function getRekamMedis($id)
+    {
+        $data = $this->M_logbook->getRekamMedisbyid($id);
+        echo json_encode($data);
+    }
     public function logbook_riwayat()
     {
         $data['id_user']    = $this->session->userdata('id_user');
@@ -345,12 +351,12 @@ class C_user extends CI_Controller
         $data['role_id']    = $this->session->userdata('role_id');
         $data['image']    = $this->session->userdata('image');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-        $status = '3';
+        $status =   '3';
         // Ambil data logbook dari model
-        $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
+        $data['logbook'] = $this->M_logbook->get_historyLogbookUser($id['id_user'], $status);
 
         // echo "<pre>";
-        // print_r($data['logbook']);
+        // print_r($data);
         // echo "</pre>";
         // die();
 
@@ -408,11 +414,7 @@ class C_user extends CI_Controller
 
         echo json_encode($data);
     }
-    public function getRekamMedis($id)
-    {
-        $data = $this->M_logbook->getRekamMedisbyid($id);
-        echo json_encode($data);
-    }
+
 
 
     public function ganti_pass()
@@ -489,9 +491,10 @@ class C_user extends CI_Controller
         $data['nama_kewenangan'] = $this->input->post('namaKewenangan');
         $data['no_rekam_medis'] = $this->input->post('noRekamMedis');
         $data['tindakan_keperawatan'] = $this->input->post('tindakan_keperawatan');
-        $data['status'] = '0';
+        $data['status'] = '1';
         $data['created'] = date('Y-m-d H:i:s'); // Get current date and time in the format Y-m-d H:i:s
         $this->M_logbook->edit($id_log, $data);
+        $this->M_logbook->updateStatusRiwayat($id_log, $data);
 
         // Redirect to the profil route
         redirect('user/logbook');
