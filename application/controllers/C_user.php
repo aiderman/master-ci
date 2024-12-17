@@ -22,25 +22,47 @@ class C_user extends CI_Controller
         }
     }
 
+    // public function index()
+    // {
+    //     $id['id_user']    = $this->session->userdata('id_user');
+    //     $data['id_user']    = $this->session->userdata('id_user');
+    //     $data['name']       = $this->session->userdata('name');
+    //     $data['username']   = $this->session->userdata('username');
+    //     $data['password']   = $this->session->userdata('password');
+    //     $data['status']     = $this->session->userdata('status');
+    //     $data['role_id']    = $this->session->userdata('role_id');
+    //     $data['position']   = $this->session->userdata('position');
+    //     $data['image']      = $this->session->userdata('image');
+    //     $data['logbook'] = $this->M_log_user->all();
+    //     $role_id = '1';
+    //     $data['users'] = $this->M_user->get_only_user($role_id);
+    //     // echo "<pre>";
+    //     // print_r($data);
+    //     // echo "</pre>";
+    //     // die();
+    //     $this->load->view("user/logbook", $data);
+    // }
     public function index()
     {
-        $id['id_user']    = $this->session->userdata('id_user');
-        $data['id_user']    = $this->session->userdata('id_user');
-        $data['name']       = $this->session->userdata('name');
-        $data['username']   = $this->session->userdata('username');
-        $data['password']   = $this->session->userdata('password');
-        $data['status']     = $this->session->userdata('status');
-        $data['role_id']    = $this->session->userdata('role_id');
-        $data['position']   = $this->session->userdata('position');
-        $data['image']      = $this->session->userdata('image');
-        $data['logbook'] = $this->M_log_user->all();
+
         $role_id = '1';
         $data['users'] = $this->M_user->get_only_user($role_id);
+        $data['id_user']    = $this->session->userdata('id_user');
+        $id['id_user']    = $this->session->userdata('id_user');
+        $data['name']       = $this->session->userdata('name');
+        $data['role_id']    = $this->session->userdata('role_id');
+        $data['image']    = $this->session->userdata('image');
+        $status['status']    = 0;
+
+        $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+        $data['logbook'] = $this->M_log_user->get_where_user($id, $status);
+        $data['perawat'] = $this->M_list_perawat->get_by_user_id($id['id_user']);
+
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
         // die();
-        $this->load->view("user/logbook_login", $data);
+        $this->load->view("user/logbook", $data);
     }
 
     public function exportLog()

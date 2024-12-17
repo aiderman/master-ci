@@ -20,29 +20,47 @@ class C_admin_validator extends CI_Controller
         }
     }
 
+    // public function index()
+    // {
+    //     $id['id_user']    = $this->session->userdata('id_user');
+    //     $data['id_user']    = $this->session->userdata('id_user');
+    //     $data['name']       = $this->session->userdata('name');
+    //     $data['username']   = $this->session->userdata('username');
+    //     $data['password']   = $this->session->userdata('password');
+    //     $data['status']     = $this->session->userdata('status');
+    //     $data['role_id']    = $this->session->userdata('role_id');
+    //     $data['position']   = $this->session->userdata('position');
+    //     $data['image']      = $this->session->userdata('image');
+    //     $data['logbook'] = $this->M_log_user->all();
+    //     $role_id = '3';
+
+
+    //     $data['users'] = $this->M_user->get_only_user($role_id);
+    //     $id['id_user']    = $this->session->userdata('id_user');
+    //     $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+    //     // echo "<pre>";
+    //     // print_r($data);
+    //     // echo "</pre>";
+    //     // die();
+    //     $this->load->view("admin_validator/logbook_login", $data);
+    // }
+
     public function index()
     {
-        $id['id_user']    = $this->session->userdata('id_user');
         $data['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
-        $data['username']   = $this->session->userdata('username');
-        $data['password']   = $this->session->userdata('password');
-        $data['status']     = $this->session->userdata('status');
         $data['role_id']    = $this->session->userdata('role_id');
-        $data['position']   = $this->session->userdata('position');
-        $data['image']      = $this->session->userdata('image');
-        $data['logbook'] = $this->M_log_user->all();
-        $role_id = '3';
-
-
-        $data['users'] = $this->M_user->get_only_user($role_id);
+        $status['status']    = 2;
+        $data['image']    = $this->session->userdata('image');
+        $data['logbook'] = $this->M_log_user->get_where_statusAdmin($status);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
         // die();
-        $this->load->view("admin_validator/logbook_login", $data);
+
+        $this->load->view("admin_validator/logbook", $data);
     }
 
     public function changePhoto()

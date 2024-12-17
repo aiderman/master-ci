@@ -24,29 +24,46 @@ class C_admin extends CI_Controller
         }
     }
 
+    // public function index()
+    // {
+    //     $id['id_user']    = $this->session->userdata('id_user');
+    //     $data['id_user']    = $this->session->userdata('id_user');
+    //     $data['name']       = $this->session->userdata('name');
+    //     $data['username']   = $this->session->userdata('username');
+    //     $data['password']   = $this->session->userdata('password');
+    //     $data['status']     = $this->session->userdata('status');
+    //     $data['role_id']    = $this->session->userdata('role_id');
+    //     $data['position']   = $this->session->userdata('position');
+    //     $data['image']      = $this->session->userdata('image');
+    //     $data['logbook'] = $this->M_log_user->all();
+
+    //     $role_id = '2';
+
+
+    //     $data['users'] = $this->M_user->get_only_user($role_id);
+    //     $id['id_user']    = $this->session->userdata('id_user');
+    //     $data['user'] = $this->db->get_where('t_users', $id)->row_array();
+
+
+    //     $this->load->view("admin/logbook_login", $data);
+    // }
+
     public function index()
     {
-        $id['id_user']    = $this->session->userdata('id_user');
         $data['id_user']    = $this->session->userdata('id_user');
         $data['name']       = $this->session->userdata('name');
-        $data['username']   = $this->session->userdata('username');
-        $data['password']   = $this->session->userdata('password');
-        $data['status']     = $this->session->userdata('status');
         $data['role_id']    = $this->session->userdata('role_id');
-        $data['position']   = $this->session->userdata('position');
-        $data['image']      = $this->session->userdata('image');
-        $data['logbook'] = $this->M_log_user->all();
-
-        $role_id = '2';
-
-
-        $data['users'] = $this->M_user->get_only_user($role_id);
-        $id['id_user']    = $this->session->userdata('id_user');
-        $data['user'] = $this->db->get_where('t_users', $id)->row_array();
-
-
-        $this->load->view("admin/logbook_login", $data);
+        $status['status']    = 1;
+        $data['image']    = $this->session->userdata('image');
+        $data['logbook'] = $this->M_logbook->get_where_status($status);
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // die();
+        $this->load->view("admin/logbook", $data);
     }
+
+
 
     public function changePhoto()
     {
