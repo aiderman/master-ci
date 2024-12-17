@@ -313,6 +313,7 @@ class C_admin_validator extends CI_Controller
         $data['sifat'] = $this->input->post('nilai');
         $data['status'] = '3';
         $this->M_logbook->edit($id_log, $data);
+        $this->M_logbook->editrek($id_log,  $data['status']);
         redirect('admin_validator/logbook');
     }
 
@@ -328,13 +329,12 @@ class C_admin_validator extends CI_Controller
         $data['name']       = $this->session->userdata('name');
         $data['role_id']    = $this->session->userdata('role_id');
         $data['status']    = 2;
-        $id_user = $data['id_user'];
         $data['user'] = $this->db->get_where('t_users',  $data['id_user'])->row_array();
         $data['logbook'] = $this->M_log_user->get_where_user($data['id_user'], $data['status']);
-        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisByIdAdmin($id_log);
+        $data['seleksiRiwayat'] = $this->M_logbook->rekamMedisByIdAdminVal($id_log);
 
         // echo "<pre>";
-        // print_r($data['seleksiRiwayat']);
+        // print_r($data);
         // echo "</pre>";
         // die();
         $this->load->view("admin_validator/logbook_rekam_medis", $data);

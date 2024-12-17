@@ -44,7 +44,7 @@
                     <div class="card">
                         <div class="body">
                             <div class="text-left">
-                                <label onclick="sendTableData()">
+                                <label>
                                     <i class="fa fa-address-card"></i> ID LOG : <?= $id_log ?>
                                 </label>
                             </div>
@@ -123,6 +123,11 @@
                                 </a>
                             </div>
                         </div>
+                        <?php if ($this->session->flashdata('error')) : ?>
+                            <div class="alert alert-danger">
+                                <?= $this->session->flashdata('error') ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

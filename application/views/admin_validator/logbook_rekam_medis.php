@@ -61,7 +61,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($logbook as $log) : ?>
+                                        <?php foreach ($seleksiRiwayat as $log) : ?>
                                             <?php
                                             $createdTimestamp = strtotime($log->created);
                                             $tanggalTimestamp = strtotime($log->tanggal);
@@ -69,7 +69,7 @@
                                             ?>
                                             <tr <?php if ($terlambat) echo 'class="terlambat"'; ?>>
                                                 <td><?= $log->nama_perawat ?></td>
-                                                <td><?= $log->user_ruangan ?></td>
+                                                <td><?= $log->ruangan_logbook ?></td>
                                                 <td><?= $log->tanggal ?></td>
                                                 <td><?= $log->nilai ?></td>
                                                 <td><?= $log->sifat ?></td>

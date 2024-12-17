@@ -95,6 +95,14 @@ class M_logbook extends CI_Model
         $this->db->where('status', '1');
         return $this->db->get()->result();
     }
+    public function rekamMedisByIdAdminVal($id_log)
+    {
+        $this->db->select('*');
+        $this->db->from('v_logbook_rekam_medis');
+        $this->db->where('id_log', $id_log);
+        $this->db->where('status', '2');
+        return $this->db->get()->result();
+    }
 
     public function rekamMedisByIdAdminIdOne()
     {
@@ -103,8 +111,6 @@ class M_logbook extends CI_Model
         $this->db->where('status', '1');
         return $this->db->get()->result();
     }
-
-
     public function all()
     {
         $this->db->select('*');
@@ -115,6 +121,13 @@ class M_logbook extends CI_Model
     {
         $this->db->where($id);
         return $this->db->get($this->table)->row_array();
+    }
+    function get1($id)
+    {
+        $this->db->select('*');
+        $this->db->from('t_logbook');
+        $this->db->where('id_log', $id);
+        return $this->db->get()->result();
     }
     function get_where($id)
     {
@@ -133,7 +146,6 @@ class M_logbook extends CI_Model
         $this->db->where($status);
         return $this->db->get()->result();
     }
-
 
     function get_historyLogbookUser($id, $status)
     {
@@ -175,7 +187,13 @@ class M_logbook extends CI_Model
     function edit($id_log, $data)
     {
         $this->db->where($id_log);
-        $this->db->update($this->table, $data);
+        $this->db->update('t_logbook', $data);
+    }
+    function editrek($id_log, $data)
+    {
+        $this->db->set('status', $data);
+        $this->db->where($id_log);
+        $this->db->update('t_rekam_medis');
     }
 
     function updateStatusRiwayat($id_log, $data)

@@ -308,14 +308,35 @@ class C_user extends CI_Controller
         // Redirect ke halaman logbook rekam medis berdasarkan ID log
         redirect('user/logbookRekamMedis/' . $id_log);
     }
-
     public function sendTableData($id_log)
     {
+        // Ambil data log berdasarkan $id_log
+        $mydata = $this->M_logbook->get1($id_log);
+
+        // Cek tanggal (asumsikan field 'tanggal' ada di database)
+        $currentDate = date('Y-m-d');
+        $logDate = $mydata[0]->tanggal;
+
+        // echo "<pre>";
+        // print_r($logDate);
+        // echo "</pre>";
+        // die();
+
+        if ($logDate < $currentDate) {
+            // Jika tanggal log sudah lewat
+            $this->session->set_flashdata('error', 'Tanggal log sudah kadaluarsa!');
+            redirect('user/logbookRekamMedis/' . $id_log);
+            return; // Tambahkan return untuk menghentikan eksekusi lebih lanjut
+        }
+
+        // Memperbarui status rekam medis dan logbook
         $this->M_logbook->UpdateStatusRekamMedis($id_log);
         $this->M_logbook->UpdateStatusLogbook($id_log);
+
+        // Set flashdata sukses dan redirect
+        $this->session->set_flashdata('success', 'Data rekam medis berhasil diperbarui!');
         redirect('user/logbookRekamMedis/' . $id_log);
     }
-
     public function tambahRekamMedis()
     {
         // Ambil data dari form input dan set default values

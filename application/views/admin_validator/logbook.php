@@ -51,7 +51,6 @@
                                             <th>Nama perawat</th>
                                             <th>Nama Ruangan</th>
                                             <th>Tanggal</th>
-                                            <th>PK</th>
                                             <th>Tinjau</th>
 
                                         </tr>
@@ -75,7 +74,6 @@
                                                 <td><?= $log->nama_perawat ?></td>
                                                 <td><?= $log->user_ruangan ?></td>
                                                 <td><?= $log->tanggal ?></td>
-                                                <td><?= $log->PK ?></td>
                                                 <td>
                                                     <?php if ($log->v_kabid == 1) : ?>
                                                         <input type="checkbox" id="centangV_karo" class="bg-success" checked readonly>

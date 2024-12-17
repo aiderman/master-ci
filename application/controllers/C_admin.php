@@ -202,6 +202,7 @@ class C_admin extends CI_Controller
 
     public function tambahUser()
     {
+
         $datas = [
             'name' => $this->input->post('nama'),
             'username' => $this->input->post('username'),
@@ -231,10 +232,17 @@ class C_admin extends CI_Controller
 
     public function tambahJadwalPerawat()
     {
-        $data['id_user'] = $this->input->post('name');
+
+
+        $ids = $this->input->post('name');
+        $container = $this->M_user->get($ids);
+
+
+        $data['id_user'] = $container["id_user"];
         $data['tanggal'] = $this->input->post('tanggal');
         $data['piket'] = $this->input->post('piket');
-        $data['ruangan'] = $this->input->post('ruangan');
+        $data['ruangan'] = $container["ruangan"];
+
         $datapas = $this->M_logbook->tambah($data);
         $id['id_user']    = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('t_users', $id)->row_array();
@@ -242,6 +250,7 @@ class C_admin extends CI_Controller
         // print_r($datapas);
         // echo "</pre>";
         // die();
+
         if ($datapas == true) {
             $this->session->set_flashdata('add', "sukses");
             redirect('admin/jadwal_perawat', $data); // Replace 'success_page' with the actual URL
@@ -604,10 +613,13 @@ class C_admin extends CI_Controller
     {
         $id_log['id_log'] = $this->input->post('idLog');
         $data['nilai'] = $this->input->post('nilai');
-        $data['status'] = '2';
-        $return = $this->M_logbook->edit($id_log, $data);
-        // print_r($return);
-        // die();
+        $data['status'] = '2'; // Status untuk nilai valid
+
+        // Update data log
+        $this->M_logbook->edit($id_log, $data);
+        $this->M_logbook->editrek($id_log,  $data['status']);
+
+        // Redirect ke halaman yang diinginkan
         redirect('admin/logbook');
     }
 }

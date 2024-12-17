@@ -21,11 +21,11 @@
                 <li class=""><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a></li>
                 <li class="dropdown">
                     <a href="<?= base_url(); ?>user/profil" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <img src="<?= base_url(); ?>uploads/profile/<?= isset($image) ? $image : 'profile_av.jpg'; ?>" width="50" height="60" alt="User Profile" class="img-circle">
+                        <img src="<?= base_url(); ?>uploads/profile/<?= isset($image) ? $image : `default.jpg`; ?>" width="50" height="60" alt="User Profile" class="img-circle">
                         <span class="hidden-xs"><?= $name; ?></span>
                     </a>
-
                 </li>
+
             </ul>
         </div>
     </nav>
