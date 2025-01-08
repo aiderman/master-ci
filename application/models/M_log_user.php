@@ -27,7 +27,7 @@ class M_log_user extends CI_Model
     {
         $this->db->where($id);
         $this->db->where('status', $status);
-        return $this->db->get('v_report')->result();
+        return $this->db->get('v_logbook')->result();
     }
 
     function get_where_status($status)

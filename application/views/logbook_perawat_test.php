@@ -47,11 +47,6 @@
                 <th>No</th>
                 <th>Nama Perawat</th>
                 <th>Tanggal</th>
-                <th>PK</th>
-                <th>Nama Kewenangan</th>
-                <th>No Rekam Medis</th>
-                <th>Tindakan Keperawatan</th>
-                <th>Nilai</th>
                 <th>Piket</th>
                 <th>Ruangan</th>
                 <th>Status</th>
@@ -62,11 +57,6 @@
                     <td><?= $no++; ?></td>
                     <td><?= $log->nama_perawat; ?></td>
                     <td><?= date('d-m-Y H:i:s', strtotime($log->tanggal)); ?></td>
-                    <td><?= $log->PK; ?></td>
-                    <td><?= $log->nama_kewenangan; ?></td>
-                    <td><?= $log->no_rekam_medis; ?></td>
-                    <td><?= $log->tindakan_keperawatan; ?></td>
-                    <td><?= $log->nilai; ?></td>
                     <td><?= $log->piket; ?></td>
                     <td><?= $log->ruangan_logbook; ?></td>
                     <td><?= $log->status == 3 ? 'Selesai' : 'Di Tolak'; ?></td>

@@ -76,7 +76,7 @@ class C_user extends CI_Controller
         $data['logbook'] = $this->M_log_user->get_where_log_userId($id, $status);
 
         // Generate view ke dalam variabel
-        $html = $this->load->view('logbook_perawat', $data, true);
+        $html = $this->load->view('perawat_logbook', $data, true);
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
@@ -325,7 +325,7 @@ class C_user extends CI_Controller
         $logDate = $mydata[0]->tanggal;
 
         // echo "<pre>";
-        // print_r($logDate);
+        // print_r($mydata);
         // echo "</pre>";
         // die();
 
